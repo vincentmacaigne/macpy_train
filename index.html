@@ -39,7 +39,7 @@
   .mode-switch { display: flex; justify-content: center; margin-bottom: 8px; }
   .mode {
     background: var(--card); border: 1px solid var(--border); color: var(--muted);
-    padding: 9px 22px; cursor: pointer; font-size: 0.92rem; font-weight: 700; transition: all .15s ease;
+    padding: 8px 15px; cursor: pointer; font-size: 0.85rem; font-weight: 700; transition: all .15s ease;
   }
   .mode:first-child { border-radius: 999px 0 0 999px; }
   .mode:last-child { border-radius: 0 999px 999px 0; }
@@ -186,7 +186,8 @@
 <body>
 <div class="wrap">
   <div class="mode-switch">
-    <button class="mode active" data-mode="parent">👨‍💼 Parent</button>
+    <button class="mode active" data-mode="vincent">⚓ Vincent</button>
+    <button class="mode" data-mode="cecile">🎨 Cécile</button>
     <button class="mode" data-mode="charlie">🌸 Charlie</button>
     <button class="mode" data-mode="emilie">🦄 Émilie</button>
   </div>
@@ -867,6 +868,129 @@ const DETAILS = {
 
   "Le time-blocking": `<p>La méthode transforme la to-do list en <strong>rendez-vous avec soi-même</strong> dans l'agenda. Cal Newport, qui la popularise, insiste : une tâche non planifiée dans le temps entre en compétition permanente avec toutes les autres et tend à être repoussée.</p>
     <p>Trois raffinements. 1) Regrouper les tâches similaires (« batching ») : traiter tous les mails dans un bloc plutôt que 30 fois par jour, car chaque changement de contexte coûte de l'attention. 2) Protéger un bloc de « deep work » sans interruption pour les tâches à forte valeur. 3) Prévoir des blocs tampons : la journée ne se passe jamais comme prévu, un agenda rempli à 100 % explose au premier imprévu.</p>`,
+
+  // ===== DÉTAILS — SECTION PERSO VINCENT =====
+  "Le positionnement RTK": `<p>Le RTK exige une liaison constante (radio ou 4G) entre la base et le mobile ; si elle tombe, on passe en « float » (précision décimétrique) et il faut réinitialiser. Quand le temps réel n'est pas fiable, le PPK (post-traitement) prend le relais.</p>`,
+  "Le sondeur multifaisceaux": `<p>La largeur de bande couverte vaut typiquement 3 à 5 fois la hauteur d'eau : une seule ligne balaie large au grand fond, mais par petits fonds il faut multiplier les lignes parallèles — d'où des levés côtiers bien plus longs.</p>`,
+  "La vitesse du son dans l'eau": `<p>On mesure le profil de célérité (sonde CTD) plusieurs fois par jour, car il bouge avec la marée, un fleuve ou le réchauffement. En estuaire, la couche eau douce / eau salée courbe fortement le son et déforme la mesure si on l'ignore.</p>`,
+  "Le cycle de la dette": `<p>Dalio distingue désendettement « déflationniste » (défauts, austérité, douloureux) et « inflationniste » (la banque centrale monétise). Le pilotage entre les deux vise un « beau désendettement » où la croissance nominale dépasse les taux.</p>`,
+  "La J-curve du private equity": `<p>On amortit le creux du J par la diversification des millésimes (étaler ses engagements dans le temps) et par le marché secondaire, qui permet de vendre ses parts avant terme. Le TRI des premières années est presque dénué de sens.</p>`,
+  "Les taux, gravité des actifs": `<p>On actualise les flux futurs : plus le taux monte, moins un euro lointain vaut aujourd'hui. C'est pourquoi une hausse des taux frappe plus durement la tech (cash-flows lointains) que les « value » qui paient tout de suite.</p>`,
+  "Le brevet : divulguer pour protéger": `<p>Un brevet est territorial (pays par pays, ou via PCT) et coûteux à maintenir. Beaucoup de PME déposent surtout pour la valeur défensive et de négociation : un brevet ne vaut que si l'on a les moyens de le faire respecter en justice.</p>`,
+  "Les douves économiques (moat)": `<p>Buffett juge le moat à sa largeur ET sa durabilité : une avance techno s'érode vite, une marque ou un effet de réseau bien moins. Son test : « avec un milliard, un concurrent pourrait-il me déloger ? »</p>`,
+  "Le seuil lactique": `<p>On l'estime en labo (lactate) ou sur le terrain (FTP en vélo, allure tenue 60 min en course). Le travail au seuil (« tempo ») et le gros volume en zone 2 le repoussent tous deux, par des voies différentes.</p>`,
+  "VO2max contre économie": `<p>La VO2max plafonne en quelques années ; l'économie progresse bien plus longtemps. D'où des marathoniens d'élite trentenaires : leur moteur n'est pas plus gros, il est mieux réglé.</p>`,
+  "Le contre-braquage": `<p>Plus la vitesse est haute, plus l'effet domine : au-delà de ~20 km/h, c'est le contre-braquage qui pilote vraiment. Le maîtriser consciemment permet des évitements d'urgence bien plus rapides.</p>`,
+  "La stratégie indirecte": `<p>Liddell Hart en tire des maximes, dont « choisis la ligne de moindre attente ». La percée de 1940 par les Ardennes « infranchissables », contournant la ligne Maginot, en est l'illustration parfaite.</p>`,
+  "La boucle OODA (Boyd)": `<p>Le cœur n'est pas la vitesse brute mais l'« Orientation » : recadrer la situation plus vite que l'adversaire, en cassant ses repères. Une organisation qui décide vite mais s'oriente mal se trompe juste plus vite.</p>`,
+  "Marge n'est pas trésorerie": `<p>Le tueur silencieux est le BFR : plus tu vends vite et grand, plus tu avances du cash (stocks, créances) avant d'être payé. D'où un plan de trésorerie distinct du compte de résultat, à surveiller au mois près.</p>`,
+
+  // ===== DÉTAILS — SUJETS INTÉRESSANTS =====
+  "Le paradoxe de Fermi": `<p>Le « Grand Filtre » est l'hypothèse la plus glaçante : un obstacle que presque aucune civilisation ne franchit. S'il est derrière nous (l'apparition de la vie), tant mieux ; s'il est devant (l'autodestruction), notre silence cosmique est un mauvais présage.</p>`,
+  "Le rasoir de Hanlon": `<p>Précieux en management : avant d'imaginer un sabotage, cherche la cause banale — consigne floue, surcharge, outil défaillant. Mais ce n'est qu'une première hypothèse : la malveillance existe, ne la nie pas non plus.</p>`,
+  "L'effet Streisand": `<p>Le mécanisme : la censure signale que l'info a de la valeur et mobilise ses défenseurs. En gestion de crise, on pèse « répondre et amplifier » contre « ignorer et laisser mourir » — souvent la seconde option gagne.</p>`,
+  "Le paradoxe de Simpson": `<p>Cas d'école : Berkeley semblait discriminer les femmes à l'admission ; en réalité, filière par filière, elles étaient admises autant ou plus — elles postulaient juste aux plus sélectives. La variable cachée inversait tout.</p>`,
+  "La loi de Goodhart": `<p>Exemples : hôpitaux qui trient pour flatter leurs stats de mortalité, écoles qui « enseignent le test ». La parade : croiser plusieurs indicateurs et garder du jugement humain, jamais un seul chiffre-roi.</p>`,
+  "Le dilemme agent-principal": `<p>On l'aligne par les incitations (variable, actions), le contrôle (reporting, audit) et la réputation. Aucun n'est parfait : trop d'incitation crée du court-termisme, trop de contrôle tue l'initiative.</p>`,
+
+  // ===== DÉTAILS — DÉVELOPPEMENT PERSONNEL =====
+  "Procrastiner n'est pas de la paresse": `<p>La recherche montre une mauvaise régulation émotionnelle, pas de gestion du temps. Paradoxe utile : se pardonner une procrastination passée réduit la procrastination future, car on lève la charge émotionnelle.</p>`,
+  "Le biais du présent": `<p>On le combat par l'engagement : virement automatique d'épargne, séance de sport payée d'avance. L'idée : laisser ton « toi » motivé d'aujourd'hui contraindre ton « toi » tenté de demain.</p>`,
+  "La fatigue décisionnelle": `<p>Illustration célèbre : des juges accordent plus de libertés en début de séance qu'avant la pause déjeuner. Leçon : garde les décisions importantes pour le matin, et supprime les micro-choix qui t'usent.</p>`,
+  "Habitudes : viser l'identité": `<p>Chaque action est un « vote » pour la personne que tu deviens. L'identité ne se décrète pas : elle se construit par preuves accumulées — d'où l'importance de commencer petit sans rompre la série.</p>`,
+  "Jamais deux fois de suite": `<p>Cette règle tue le piège du tout-ou-rien (« j'ai raté un jour, autant tout arrêter »), qui détruit plus d'habitudes que les mauvais jours eux-mêmes. On tolère l'imperfection, jamais l'abandon.</p>`,
+  "L'attention se dresse": `<p>Le cerveau a un « biais de négativité » hérité de l'évolution : les menaces marquent plus que le positif. Noter le positif ne nie pas les problèmes — il rééquilibre une balance biologiquement faussée.</p>`,
+
+  // ===== DÉTAILS — PRO =====
+  "La loi de Brooks": `<p>Tirée du « Mythe du mois-homme ». Cause : les canaux de communication croissent en n², et les nouveaux venus doivent être formés par les anciens, qu'ils ralentissent. Corollaire : découpe le travail plutôt que de gonfler l'équipe.</p>`,
+  "Le coût irrécupérable": `<p>Le Concorde en est l'archétype (« on a déjà tant investi »). Antidote : raisonner en coût futur et se demander « repartirais-je de zéro dans ce projet aujourd'hui ? ». Sinon, c'est l'ego qui décide.</p>`,
+  "Déléguer, c'est fixer un niveau": `<p>On choisit le niveau selon l'enjeu et la maturité de la personne. L'erreur classique : déléguer sans préciser le niveau, puis reprocher soit l'excès de zèle, soit le manque d'initiative.</p>`,
+  "Le principe de Peter": `<p>Parades : créer des filières d'expertise (rester expert bien payé sans devenir manager), et évaluer sur les compétences du poste visé, pas du poste actuel. Promouvoir n'est pas récompenser.</p>`,
+  "Le vrai coût d'une réunion": `<p>Amazon impose un ordre du jour écrit lu en silence et la règle des « deux pizzas ». Toute réunion devrait avoir un décideur, une décision attendue, et le moins de participants possible.</p>`,
+  "Urgent contre important": `<p>Le piège est le « quadrant 3 » : urgent mais pas important — les sollicitations des autres qu'on prend pour du travail. Dire non, déléguer ou différer libère le temps du quadrant 2, le seul qui construit.</p>`,
+
+  // ===== DÉTAILS — SPORT =====
+  "Le point de côté": `<p>Facteurs aggravants : manger trop près de la séance, se déshydrater, un tronc faible. Parade immédiate : ralentir, expirer à fond, appuyer sur la zone douloureuse.</p>`,
+  "Le HIIT, à petite dose": `<p>2 à 3 séances par semaine suffisent ; au-delà, le système nerveux ne récupère plus et la performance chute. Le HIIT ne remplace pas le volume facile : base large, sommet pointu.</p>`,
+  "Les courbatures ne notent rien": `<p>Les DOMS apparaissent surtout après un exercice nouveau ou très excentrique, et s'atténuent avec l'habitude. S'entraîner légèrement courbaturé est sans risque ; forcer sur une douleur articulaire, non.</p>`,
+  "Mobilité n'est pas souplesse": `<p>Un grand écart passif ne protège pas sans force dans l'amplitude. Les squats profonds, rotations contrôlées et amplitudes chargées construisent une mobilité utilisable — celle qui prévient vraiment les blessures.</p>`,
+  "Échauffe-toi en mouvement": `<p>Le dynamique élève la température et « répète » les gestes à venir. Les étirements statiques longs se gardent pour après : avant une perf, ils peuvent réduire la force de 5 à 10 %.</p>`,
+
+  // ===== DÉTAILS — NUTRITION =====
+  "Le petit-déjeuner n'est pas sacré": `<p>Le jeûne intermittent marche surtout parce qu'il réduit la fenêtre où l'on mange, donc le total — pas par magie métabolique. Ce qui compte reste l'apport global et la satiété sur 24 h.</p>`,
+  "Les calories liquides": `<p>Le corps compense mal ce qu'on boit : un jus fait grimper la glycémie sans le rassasiement des fibres du fruit entier. Remplacer les boissons sucrées par de l'eau est souvent le changement le plus rentable.</p>`,
+  "Se rassasier par le volume": `<p>Concept de densité calorique : à volume égal, une assiette de légumes et protéines rassasie pour bien moins de calories qu'un plat gras. On mange à sa faim tout en étant en déficit — la clé de la tenue.</p>`,
+  "L'alcool vole ton sommeil": `<p>L'alcool fragmente le sommeil paradoxal et provoque des micro-réveils en 2e moitié de nuit, quand il est métabolisé. On s'endort plus vite mais on récupère moins : fatigue malgré une nuit « complète ».</p>`,
+  "« Zéro calorie » ≠ zéro effet": `<p>Les données sont contrastées : certains édulcorants modifient le microbiote et la réponse au sucre chez une partie des gens. Utiles pour réduire le sucre, mais l'idéal est de rééduquer le goût vers moins sucré.</p>`,
+
+  // ===== DÉTAILS — GÉOPOLITIQUE =====
+  "Le piège de Thucydide": `<p>Graham Allison a recensé 16 cas de puissance montante contre établie : 12 ont fini en guerre. Les 4 exceptions (dont la Guerre froide) montrent que l'éviter est possible, mais demande une gestion active et lucide.</p>`,
+  "Le heartland de Mackinder": `<p>Spykman lui a répliqué avec le « rimland » (les côtes). Ensemble, elles éclairent pourquoi les puissances continentales cherchent des accès aux mers chaudes, et pourquoi l'Eurasie obsède les stratèges.</p>`,
+  "Le dollar comme arme": `<p>Le levier passe par la compensation en dollars et les messageries interbancaires : être coupé du dollar isole du commerce mondial. Effet secondaire : ces sanctions poussent certains à chercher des alternatives (dédollarisation).</p>`,
+  "La démographie, destin lent": `<p>Une population qui vieillit voit sa croissance ralentir et ses retraites exploser — quasi impossible à inverser vite (une politique nataliste met 20 ans à produire des actifs). D'où le poids de l'immigration et de la productivité.</p>`,
+  "Mer contre terre": `<p>Distinction de Carl Schmitt : la puissance maritime valorise commerce, liberté des mers et alliances souples ; la terrestre, territoire, profondeur et contrôle. Beaucoup de conflits opposent ces deux logiques.</p>`,
+  "Résilience contre efficacité": `<p>Le juste-à-temps minimise les stocks : génial en temps calme, catastrophique lors d'un choc (pandémie, blocage d'un détroit). Le balancier repart vers relocalisation, stocks stratégiques et diversification des fournisseurs.</p>`,
+
+  // ===== DÉTAILS — TECHNIQUES =====
+  "Limiter le travail en cours": `<p>Cœur de la méthode Kanban : plafonner le nombre de tâches « en cours ». Résultat contre-intuitif : en démarrant moins de choses, on en finit plus, car on cesse de payer le coût des changements de contexte.</p>`,
+  "Le pré-mortem": `<p>Technique de Gary Klein : annoncer « le projet a échoué, imaginez pourquoi » libère la parole que l'optimisme ambiant étouffe. On repère des risques qu'un « des objections ? » n'aurait jamais fait sortir.</p>`,
+  "Réversible ou pas ?": `<p>Bezos parle de portes « à sens unique » (irréversibles, à instruire lourdement) et « à double sens » (réversibles, à décider vite). L'erreur des grandes structures : traiter les secondes comme les premières, et se scléroser.</p>`,
+  "La règle 10/10/10": `<p>Le « 10 minutes » calme la panique, le « 10 mois » teste la vraie importance, le « 10 ans » recentre sur les valeurs. Trois horizons pour dégonfler l'émotion du moment — simple, portable, redoutable.</p>`,
+  "Grouper les interruptions": `<p>Le coût caché est le « switching cost » : jusqu'à 20 min pour retrouver la concentration profonde après une interruption. Traiter les mails en 2-3 plages fixes, notifications coupées, protège les heures de vraie valeur.</p>`,
+  "La to-do en calendrier": `<p>Le time-blocking (Cal Newport) transforme les intentions en rendez-vous. Complété de blocs tampons pour l'imprévu, il révèle une vérité utile : on a bien moins d'heures productives par jour qu'on ne le croit.</p>`,
+
+  // ===== DÉTAILS — INGÉNIERIE & MER =====
+  "Le zéro hydrographique": `<p>Le zéro des cartes est le plus bas niveau de marée astronomique, pour la sécurité : on est sûr d'avoir au moins la profondeur indiquée. Relier ce zéro au système terrestre (géoïde) via le GNSS est un enjeu majeur des levés modernes.</p>`,
+  "La centrale inertielle (IMU)": `<p>Couplée au GNSS, elle forme un système INS/GNSS : le GNSS recale la dérive lente de l'inertiel, l'inertiel comble les trous du GNSS (sous un pont). Ce mariage donne une trajectoire continue malgré la houle.</p>`,
+  "La fusion de capteurs": `<p>Le filtre de Kalman est l'outil roi : il pondère chaque capteur selon son incertitude et produit une estimation optimale. Le même principe guide un drone, une voiture autonome ou un sondeur.</p>`,
+  "La marée est prévisible": `<p>On extrait du marégramme les « constantes harmoniques » (amplitude et phase de chaque onde) pour prédire la marée des années à l'avance. Mais la météo ajoute une « surcote » imprévisible, cruciale pour les alertes submersion.</p>`,
+  "Le LiDAR bathymétrique": `<p>Deux lasers : un infrarouge sur la surface, un vert qui pénètre l'eau ; l'écart de temps donne la profondeur. Limité par la turbidité, il est imbattable pour cartographier vite de grands linéaires côtiers peu profonds.</p>`,
+  "La couche SIG": `<p>Sa force est l'analyse spatiale : croiser bathymétrie, nature des fonds, courants et réglementation pour choisir un tracé de câble ou une zone de dragage. La donnée devient un outil de décision, pas juste une belle carte.</p>`,
+
+  // ===== DÉTAILS — INVESTISSEMENT =====
+  "Les intérêts composés": `<p>La « règle de 72 » : 72 ÷ rendement annuel donne le nombre d'années pour doubler (à 8 %, ~9 ans). Le vrai levier n'est pas le taux mais la durée — d'où l'avantage écrasant de commencer tôt et de ne pas interrompre.</p>`,
+  "Le risque n'est pas la volatilité": `<p>Pour un investisseur long terme, la volatilité est même une amie : elle offre des points d'entrée bon marché. Le risque réel est la perte définitive (faillite, dilution, achat trop cher). Les confondre fait vendre en panique.</p>`,
+  "La marge de sécurité": `<p>Cœur du « value investing » (Graham, maître de Buffett). Payer 60 centimes ce qu'on estime valoir 1 € protège de l'erreur d'analyse et de la malchance. Plus l'incertitude est grande, plus la marge exigée doit l'être.</p>`,
+  "Le lissage (DCA)": `<p>Le DCA n'optimise pas le rendement (tout investir d'un coup bat statistiquement l'étalement), mais le comportement : il retire la peur de « mal timer ». Le meilleur plan est celui que l'on tiendra dans la durée.</p>`,
+  "La diversification": `<p>La vraie diversification joue sur des actifs qui réagissent différemment aux mêmes chocs. Attention : en crise majeure, les corrélations tendent vers 1 (tout baisse ensemble) — elle protège du risque ordinaire, moins du cataclysme.</p>`,
+  "Le biais de survie des palmarès": `<p>Les indices « nettoient » les faillites : une action à −100 % sort de l'indice, embellissant l'historique. Idem pour les fonds : ceux qui ferment disparaissent des classements, gonflant la moyenne des survivants.</p>`,
+  "Value ou growth ?": `<p>La value achète des actifs décotés, la growth paie cher une croissance future. Taux bas → avantage growth (les flux lointains valent plus) ; taux hauts → avantage value. D'où l'utilité d'un cadre macro pour savoir quel régime domine.</p>`,
+
+  // ===== DÉTAILS — STRATÉGIE & PI =====
+  "Les 5 forces de Porter": `<p>L'analyse révèle où va le profit : un marché à fournisseurs puissants (terres rares) ou clients dominants (grande distribution) laisse peu de marge, même bien géré. On choisit son secteur autant qu'on y joue.</p>`,
+  "L'océan bleu": `<p>Kim & Mauborgne : redéfinir le marché plutôt que d'y livrer bataille (le Cirque du Soleil, ni cirque ni théâtre). Le risque : un océan bleu qui marche rougit vite avec les imitateurs — d'où l'importance d'un moat derrière.</p>`,
+  "La liberté d'exploitation (FTO)": `<p>Avant un lancement, l'analyse FTO vérifie qu'on n'enfreint pas de brevets tiers en vigueur — distinct de la brevetabilité de sa propre invention. La négliger expose à des injonctions après avoir tout investi.</p>`,
+  "Le secret d'affaires": `<p>Sa protection dépend de mesures concrètes (accès restreint, NDA, marquage) : sans elles, aucune défense juridique. Idéal pour ce qui est dur à rétro-concevoir (procédés) ; risqué pour ce qui se lit dans le produit fini.</p>`,
+  "La licence croisée": `<p>Fréquente en électronique, où un produit touche des milliers de brevets concurrents : plutôt que de se paralyser en procès, on échange des droits. Les « patent pools » mutualisent des portefeuilles autour d'un standard.</p>`,
+
+  // ===== DÉTAILS — ENDURANCE =====
+  "Le mur du marathon": `<p>Le corps stocke ~90 min à 2 h de glycogène à l'allure course. On repousse le mur en s'entraînant à « courir sur les graisses » (sorties longues lentes) et en s'alimentant pendant l'effort (~60-90 g de glucides/h).</p>`,
+  "L'affûtage (tapering)": `<p>On réduit le volume de 40 à 60 % sur 1 à 3 semaines, en gardant un peu d'intensité pour ne pas « s'endormir ». La fatigue se dissipe plus vite que la condition acquise — d'où le gain paradoxal en s'entraînant moins.</p>`,
+  "Le pacing négatif": `<p>Partir 5-10 s/km trop vite au marathon peut coûter plusieurs minutes en fin de course. Discipline mentale : les premiers kilomètres qui semblent trop lents sont souvent la bonne allure.</p>`,
+  "Les transitions comptent": `<p>Sur un triathlon, mal préparé on perd 1 à 2 min en T1/T2 — parfois plus que l'écart final. On les répète à l'entraînement (« brick sessions ») pour habituer le corps au changement de sollicitation.</p>`,
+  "La périodisation": `<p>Modèle classique : base (volume, zone 2), phase spécifique (seuil, allure course), affûtage, récupération. La surcompensation guide le tout : alterner charge et repos pour monter par paliers plutôt que plafonner ou casser.</p>`,
+
+  // ===== DÉTAILS — MOTO =====
+  "Le regard porte la moto": `<p>On entraîne le regard qui anticipe : viser le point de corde, puis déjà la sortie. En urgence, forcer les yeux vers l'échappatoire (jamais vers l'obstacle) est ce qui sauve — le corps suit littéralement le regard.</p>`,
+  "Le point de corde": `<p>La trajectoire de sécurité diffère de celle de vitesse : on retarde le point de corde pour ouvrir la visibilité et garder une marge si le virage se referme ou si un véhicule arrive en face. Voir loin prime sur passer vite.</p>`,
+  "L'adhérence est un budget": `<p>C'est le « cercle d'adhérence » : freinage + virage + accélération ne peuvent dépasser le grip disponible. D'où le « trail braking » : relâcher progressivement le frein en entrant dans l'angle, pour ne jamais tout demander d'un coup.</p>`,
+  "Le frein moteur": `<p>Rétrograder ralentit sans user les plaquettes et garde le moteur dans sa plage de puissance pour ré-accélérer. Sur route glissante, un frein moteur brutal peut faire déraper l'arrière — d'où l'utilité de l'embrayage anti-dribble.</p>`,
+
+  // ===== DÉTAILS — HISTOIRE MILITAIRE =====
+  "La logistique gagne les guerres": `<p>Napoléon en Russie, Rommel privé de carburant : de brillantes manœuvres brisées par l'intendance. Dans une armée moderne, le ratio soutien/combattants est énorme : pour un soldat au front, plusieurs le ravitaillent à l'arrière.</p>`,
+  "Le brouillard de la guerre": `<p>Clausewitz y ajoute la « friction » : mille imprévus (météo, ordres mal transmis, fatigue) qui compliquent même le plan simple. D'où l'intérêt d'une intention claire (« Auftragstaktik ») plutôt que d'ordres rigides.</p>`,
+  "La concentration des forces": `<p>Le « Schwerpunkt » allemand : masser l'effort sur un point de rupture plutôt que défendre partout également. En entreprise comme à la guerre, vouloir être fort partout, c'est être faible partout.</p>`,
+  "La dissuasion": `<p>Elle repose sur la crédibilité : l'adversaire doit croire à ta capacité ET à ta volonté de répondre. La « destruction mutuelle assurée » en est la forme extrême ; la même logique vaut pour une réputation prête à défendre ses brevets.</p>`,
+  "Le renseignement renverse tout": `<p>Enigma aurait raccourci la guerre de deux ans. Mais l'exploiter trop visiblement révèle qu'on « lit » l'ennemi. Savoir est puissant ; savoir sans le montrer est décisif.</p>`,
+  "Usure ou mouvement": `<p>Verdun (usure, saigner l'ennemi) contre la Blitzkrieg (mouvement, paralyser par la vitesse). Le faible en nombre cherche la manœuvre ; le fort en ressources peut se permettre l'usure. Le choix dépend du rapport de force.</p>`,
+
+  // ===== DÉTAILS — ENTREPRENEURIAT =====
+  "Le product-market fit": `<p>Signaux : les clients reviennent, en parlent spontanément, et tu peines à suivre la demande. Test de Sean Ellis : si plus de 40 % des utilisateurs seraient « très déçus » de le perdre, tu tiens probablement ton fit.</p>`,
+  "CAC contre LTV": `<p>Règle de pouce (SaaS) : un ratio LTV/CAC d'environ 3, un CAC remboursé en moins de 12 mois. En dessous, on brûle du cash à chaque client. Le CAC doit inclure TOUT le marketing et les ventes, pas juste la pub.</p>`,
+  "Le runway": `<p>Runway = trésorerie ÷ burn mensuel. On lève quand il reste 6 à 12 mois, car une levée prend des mois et un cash faible affaiblit la négociation. Le connaître au mois près est un réflexe de survie.</p>`,
+  "Parler aux clients d'abord": `<p>Méthode « customer development » (Steve Blank) : sortir tester le problème avant la solution. Beaucoup d'échecs ne sont pas des ratés d'exécution, mais des produits parfaits pour un besoin qui n'existait pas.</p>`,
+  "Qui tranche ?": `<p>La gouvernance floue (co-fondateurs 50/50 sans départage) est une cause classique de blocage mortel. Mieux vaut un décideur clair par domaine et un pacte d'associés prévoyant les cas de conflit dès le départ.</p>`,
+  "La dilution": `<p>À chaque tour, les fondateurs cèdent souvent 15-25 %. Ce qui compte est la valeur absolue de sa part, pas le pourcentage : 10 % d'une licorne battent 80 % d'une PME atone. La dilution est saine tant que le capital crée plus de valeur qu'il n'en dilue.</p>`,
 };
 
 /* ============================================================
@@ -1175,6 +1299,44 @@ const ENFANTS = [
   { cat:"Émotions", titre:"Attendre avant d'agir fâché",
     corps:`<p>Quand tu es très fâché, attends un petit peu avant de parler ou d'agir.</p>`,
     why:"La grosse vague de colère redescend, et ensuite on prend de bien meilleures décisions." },
+
+  // ===== LOT 4 : ENFANTS =====
+  { cat:"Animaux", titre:"L'hippopotame transpire rose",
+    corps:`<p>L'hippopotame fabrique une drôle de sueur rouge-rose qui le protège du soleil, comme une <strong>crème solaire</strong> naturelle !</p>`,
+    why:"Malgré son air tranquille, c'est l'un des animaux les plus costauds d'Afrique." },
+  { cat:"Animaux", titre:"Le hibou tourne la tête très loin",
+    corps:`<p>Le hibou peut tourner sa tête presque complètement pour regarder derrière lui, <strong>sans bouger le corps</strong> !</p>`,
+    why:"Ses yeux sont si gros qu'ils ne peuvent pas bouger : alors c'est toute la tête qui tourne." },
+  { cat:"Espace", titre:"La Terre tourne très vite",
+    corps:`<p>En ce moment, la Terre tourne sur elle-même — et toi avec — à toute vitesse, mais tu ne le sens pas du tout !</p>`,
+    why:"C'est cette rotation qui fabrique le jour et la nuit." },
+  { cat:"Espace", titre:"Les combinaisons blanches",
+    corps:`<p>Les combinaisons des astronautes sont <strong>blanches</strong> pour renvoyer la lumière du Soleil et ne pas avoir trop chaud.</p>`,
+    why:"Dans l'espace, au soleil il fait une chaleur énorme, et à l'ombre un froid glacial." },
+  { cat:"Le corps", titre:"Pourquoi tu éternues",
+    corps:`<p>Un éternuement, c'est ton nez qui expulse très fort ce qui le chatouille : poussière, poivre, pollen !</p>`,
+    why:"L'air d'un éternuement sort plus vite qu'une voiture sur l'autoroute !" },
+  { cat:"Le corps", titre:"Tes muscles pour sourire",
+    corps:`<p>Il faut plein de petits muscles qui travaillent ensemble pour faire un grand <strong>sourire</strong> !</p>`,
+    why:"Sourire, même quand ça ne va pas trop fort, aide un peu ton cerveau à se sentir mieux." },
+  { cat:"Nature", titre:"Les nuages sont lourds",
+    corps:`<p>Un gros nuage blanc peut peser aussi lourd qu'une <strong>centaine d'éléphants</strong> — et pourtant il flotte !</p>`,
+    why:"L'eau y est en toutes petites gouttes légères qui restent en l'air." },
+  { cat:"Nature", titre:"L'abeille et la fleur, une équipe",
+    corps:`<p>En cherchant à manger, l'abeille transporte du pollen d'une fleur à l'autre et aide les plantes à faire des <strong>fruits</strong> !</p>`,
+    why:"Sans les abeilles, on aurait beaucoup moins de fruits à manger." },
+  { cat:"Sciences rigolotes", titre:"Le savon chasse le gras",
+    corps:`<p>Le savon aide à décoller la saleté et le gras de tes mains pour qu'ils partent avec l'eau.</p>`,
+    why:"C'est pour ça qu'on se lave bien mieux avec du savon qu'avec de l'eau toute seule." },
+  { cat:"Sciences rigolotes", titre:"Pourquoi la Lune nous suit",
+    corps:`<p>En voiture, on a l'impression que la Lune nous <strong>suit</strong>… mais elle est juste très, très loin !</p>`,
+    why:"Les choses lointaines semblent bouger avec nous, alors que les arbres proches défilent vite." },
+  { cat:"Émotions", titre:"Un câlin, ça soigne un peu",
+    corps:`<p>Faire un câlin à quelqu'un qu'on aime envoie une petite <strong>potion de réconfort</strong> dans le corps.</p>`,
+    why:"C'est pour ça qu'un câlin fait tellement de bien quand on a un chagrin." },
+  { cat:"Émotions", titre:"Dire merci rend joyeux",
+    corps:`<p>Penser à ce qui est chouette dans ta journée et dire <strong>merci</strong> te rend un peu plus heureux.</p>`,
+    why:"Le soir, essaie de retrouver 3 choses agréables de ta journée." },
 ];
 const DETAILS_ENFANT = {
   "Le poulpe a trois cœurs": `<p>Le poulpe est un vrai petit génie ! Il sait ouvrir des bocaux, sortir de labyrinthes, et même reconnaître les personnes qui s'occupent de lui.</p>
@@ -1221,6 +1383,90 @@ const DETAILS_ENFANT = {
 
   "Le pouvoir de dire pardon": `<p>Se tromper, ça arrive à tout le monde, même aux grandes personnes ! Ce qui compte, c'est ce qu'on fait après.</p>
     <p>Dire pardon et réparer, ça soigne aussi les amitiés. Et souvent, on se sent tout léger après.</p>`,
+
+  // --- LOT 2 ---
+  "Le caméléon aux yeux séparés": `<p>Le caméléon change de couleur surtout pour dire ses émotions et parler aux autres caméléons, pas seulement pour se cacher !</p>`,
+  "Le dauphin dort à moitié": `<p>Les dauphins vivent en groupe et s'appellent chacun par un petit sifflement, comme un prénom rien qu'à eux !</p>`,
+  "Le colibri fait du surplace": `<p>Le colibri adore le sucre des fleurs : il mange presque tout le temps pour avoir l'énergie de battre des ailes si vite.</p>`,
+  "Les abeilles voient l'invisible": `<p>Une ruche, c'est une équipe géante : chaque abeille a un métier — nettoyer, garder la porte, ou chercher le nectar.</p>`,
+  "La girafe et ses 7 os": `<p>Avec son long cou, la girafe attrape les feuilles tout en haut des arbres, là où personne d'autre ne peut manger.</p>`,
+  "La bestiole indestructible": `<p>Le tardigrade est si petit qu'il faut une loupe très puissante pour le voir. On en trouve même dans la mousse de ton jardin !</p>`,
+  "Le Soleil est une étoile": `<p>Le Soleil nous donne la lumière et la chaleur. Sans lui, la Terre serait toute noire et gelée.</p>`,
+  "L'étoile filante n'en est pas une": `<p>Certaines nuits, on peut en voir plein d'un coup : c'est une vraie pluie d'étoiles filantes !</p>`,
+  "Mars, la planète rouillée": `<p>Un jour, peut-être, des humains iront marcher sur Mars pour la visiter en vrai.</p>`,
+  "Saturne pourrait flotter": `<p>Avec une petite lunette, tu peux voir les anneaux de Saturne depuis ton jardin. C'est magnifique !</p>`,
+  "On peut écouter l'espace": `<p>Les scientifiques envoient aussi des messages dans l'espace… au cas où quelqu'un, quelque part, les écouterait !</p>`,
+  "Ton cœur ne s'arrête jamais": `<p>Quand tu cours ou que tu as peur, ton cœur bat plus vite pour envoyer plus d'énergie à ton corps.</p>`,
+  "Tu perds ta peau tout le temps": `<p>Quand tu te fais un petit bobo, ta peau se répare toute seule et fabrique une croûte pour se protéger.</p>`,
+  "Le ventre qui gargouille": `<p>Ce bruit veut souvent dire que ton ventre travaille pour digérer, ou qu'il a un petit creux.</p>`,
+  "Plus grand le matin": `<p>Les astronautes grandissent encore plus dans l'espace, parce que rien ne les tasse là-haut !</p>`,
+  "Le rire te fait du bien": `<p>Le rire est contagieux : quand quelqu'un rit, souvent on se met à rire aussi sans même savoir pourquoi !</p>`,
+  "Le volcan, cheminée de la Terre": `<p>Quand un volcan se réveille, la roche fondue qui coule s'appelle la lave. En refroidissant, elle devient de la roche dure.</p>`,
+  "La foudre plus chaude que le Soleil": `<p>Pendant un orage, le plus sûr est de rester à l'intérieur, bien au chaud à la maison.</p>`,
+  "Chaque flocon est unique": `<p>Si tu regardes un flocon de tout près, tu vois de jolis dessins en forme d'étoile à six branches.</p>`,
+  "Le sable, ce sont des mini-cailloux": `<p>Certaines plages ont du sable blanc, d'autres noir ou même rose, selon les roches d'où il vient !</p>`,
+  "Les plantes mangent la lumière": `<p>C'est pour ça que les plantes tournent leurs feuilles vers la fenêtre : elles cherchent la lumière !</p>`,
+  "Pourquoi la glace flotte": `<p>Essaie : mets un glaçon dans un verre d'eau, il reste toujours en haut, comme un petit bateau.</p>`,
+  "L'écho qui revient": `<p>Dans un grand tunnel ou une église, ta voix résonne longtemps : c'est plein d'échos qui se répondent !</p>`,
+  "Les aimants magiques": `<p>Les aimants attrapent le fer, mais pas le bois ni le plastique. Teste chez toi pour voir ce qui colle !</p>`,
+  "Les bulles sont toujours rondes": `<p>Même si tu souffles dans un anneau tout carré, la bulle qui s'envole sera toujours ronde !</p>`,
+  "L'eau est bleue en grand": `<p>Les poissons des grands fonds vivent dans le noir complet : certains fabriquent même leur propre lumière !</p>`,
+  "La peur est une alarme": `<p>Quand tu as peur, en parler à un grand aide beaucoup à se sentir de nouveau en sécurité.</p>`,
+  "La jalousie, ça se parle": `<p>Au lieu de garder la jalousie dans ton ventre, dis ce que tu ressens : ça pèse tout de suite moins lourd.</p>`,
+  "Dire ce qu'on ressent": `<p>Il existe plein d'émotions différentes. Plus tu apprends à les nommer, mieux tu te comprends toi-même.</p>`,
+  "L'ennui sert à inventer": `<p>La prochaine fois que tu t'ennuies, attends un peu : une idée de jeu va sûrement arriver toute seule !</p>`,
+
+  // --- LOT 3 ---
+  "Le crocodile et sa langue collée": `<p>Le crocodile peut rester des heures sans bouger, la bouche grande ouverte, juste pour se rafraîchir au soleil.</p>`,
+  "L'étoile de mer sans cerveau": `<p>Au bout de chacun de ses bras, l'étoile de mer a un petit œil tout simple qui voit la lumière.</p>`,
+  "Le kangourou ne recule pas": `<p>Le bébé kangourou est minuscule à la naissance et grandit bien au chaud dans la poche de sa maman.</p>`,
+  "L'escargot aux milliers de dents": `<p>Quand il fait trop sec, l'escargot se cache dans sa coquille et attend tranquillement qu'il pleuve.</p>`,
+  "Le chat qui ronronne": `<p>Le chat voit très bien dans le noir grâce à ses grands yeux : parfait pour se promener la nuit.</p>`,
+  "La grenouille boit par la peau": `<p>Quand elle était petite, la grenouille était un têtard qui vivait dans l'eau et n'avait pas encore de pattes !</p>`,
+  "Il pleut des diamants": `<p>On ne pourrait pas aller les ramasser : ces planètes sont bien trop froides et bien trop loin de nous.</p>`,
+  "Sauter comme un super-héros": `<p>C'est pour ça que les astronautes marchaient en faisant de grands bonds rigolos sur la Lune.</p>`,
+  "Le Soleil que tu vois est en retard": `<p>Les étoiles sont encore plus loin : leur lumière voyage parfois des années pour arriver jusqu'à tes yeux !</p>`,
+  "Plus d'étoiles que de sable": `<p>Certaines étoiles qu'on voit se sont peut-être déjà éteintes : on voit encore leur vieille lumière voyageuse.</p>`,
+  "Jupiter, la planète géante": `<p>Jupiter a des dizaines de lunes qui tournent autour d'elle, comme une petite famille de planètes.</p>`,
+  "Pourquoi la Lune change de forme": `<p>Il faut à peu près un mois à la Lune pour passer par toutes ses formes, puis ça recommence.</p>`,
+  "Tes empreintes sont uniques": `<p>C'est pour ça que la police utilise les empreintes : c'est comme une signature secrète au bout des doigts.</p>`,
+  "Tu clignes sans même y penser": `<p>Quand tu fixes un écran très longtemps, tu clignes moins souvent, et les yeux peuvent se mettre à piquer.</p>`,
+  "L'acide magique de l'estomac": `<p>C'est un peu pour ça qu'on a faim : l'estomac est prêt et attend de la nourriture à découper.</p>`,
+  "Des milliards d'amies dans ton ventre": `<p>Ces petites bactéries t'aident aussi à te protéger des microbes qui rendent malade.</p>`,
+  "Le goût passe par le nez": `<p>Quand tu es enrhumé et que ton nez est bouché, la nourriture a beaucoup moins de goût. Tu as remarqué ?</p>`,
+  "Le cerveau ne sent pas la douleur": `<p>Ton cerveau est bien protégé dans ta tête par les os solides du crâne, comme un vrai casque.</p>`,
+  "L'océan fabrique l'air": `<p>C'est une raison de plus de garder la mer bien propre : elle nous aide à respirer !</p>`,
+  "L'eau voyage en rond": `<p>La même eau existe depuis toujours sur Terre : on la partage tous, encore et encore, depuis très longtemps.</p>`,
+  "Le désert gèle la nuit": `<p>Les animaux du désert se cachent souvent sous le sable ou dans un trou pour éviter le chaud comme le froid.</p>`,
+  "La montagne cachée sous la mer": `<p>La plus haute montagne qu'on voit sur terre s'appelle l'Everest : son sommet touche presque les nuages.</p>`,
+  "D'où vient le vent": `<p>Le vent peut être tout doux comme une caresse, ou très fort comme dans une grosse tempête.</p>`,
+  "Les racines aussi grandes que l'arbre": `<p>Certaines racines vont chercher l'eau très, très loin sous la terre pour que l'arbre puisse boire.</p>`,
+  "Le nuage devant ta bouche": `<p>Les nuages du ciel, c'est pareil : de la vapeur d'eau qui se rassemble tout là-haut.</p>`,
+  "Le sel qui fait fondre la glace": `<p>C'est aussi pour ça que la mer, qui est salée, gèle beaucoup moins facilement que l'eau douce.</p>`,
+  "Pourquoi un bateau flotte": `<p>Si tu remplis un bateau d'eau, il finit par couler : c'était l'air à l'intérieur qui le faisait flotter.</p>`,
+  "Fabriquer toutes les couleurs": `<p>Quand tu mélanges TOUTES les couleurs de peinture ensemble, tu obtiens souvent du marron. Essaie !</p>`,
+  "Ton ombre, de la lumière bloquée": `<p>À midi, quand le soleil est tout en haut, ton ombre devient toute petite juste sous tes pieds.</p>`,
+  "L'éclair avant le tonnerre": `<p>Si le tonnerre gronde juste après l'éclair, c'est que l'orage est juste au-dessus de toi !</p>`,
+  "Respirer comme un ballon": `<p>Allongé, tu peux poser une peluche sur ton ventre et la regarder monter et descendre en respirant.</p>`,
+  "Les émotions, c'est comme la météo": `<p>Après la pluie revient toujours le soleil ; après une grosse tristesse aussi, ça finit par aller mieux.</p>`,
+  "Le courage, c'est y aller quand même": `<p>Chaque fois que tu essaies une chose qui te fait un peu peur, tu deviens un peu plus courageux.</p>`,
+  "Aider rend heureux": `<p>Un petit geste gentil peut rendre la journée de quelqu'un beaucoup, beaucoup plus belle.</p>`,
+  "Se tromper, c'est apprendre": `<p>Bébé, tu es tombé plein de fois avant de réussir à marcher. Et regarde-toi maintenant !</p>`,
+  "Attendre avant d'agir fâché": `<p>Compter jusqu'à 10 dans sa tête, c'est une super astuce pour laisser passer la grosse colère.</p>`,
+
+  // --- LOT 4 ---
+  "L'hippopotame transpire rose": `<p>L'hippopotame passe presque toute la journée dans l'eau pour rester au frais. Il peut même marcher au fond de la rivière !</p>`,
+  "Le hibou tourne la tête très loin": `<p>Le hibou vole sans faire le moindre bruit, grâce à ses plumes très douces. Parfait pour surprendre les souris la nuit !</p>`,
+  "La Terre tourne très vite": `<p>Quand c'est le jour chez toi, c'est la nuit de l'autre côté de la Terre. On est tous sur la même grande boule qui tourne !</p>`,
+  "Les combinaisons blanches": `<p>Une combinaison d'astronaute est très lourde sur Terre… mais dans l'espace, tout flotte et ne pèse presque rien !</p>`,
+  "Pourquoi tu éternues": `<p>C'est presque impossible d'éternuer les yeux ouverts : ton corps les ferme tout seul, par réflexe !</p>`,
+  "Tes muscles pour sourire": `<p>Le plus grand muscle de ton corps est dans la fesse : c'est lui qui t'aide à marcher, courir et sauter !</p>`,
+  "Les nuages sont lourds": `<p>Quand les gouttes d'un nuage deviennent trop grosses et trop lourdes, elles tombent : et voilà la pluie !</p>`,
+  "L'abeille et la fleur, une équipe": `<p>Une seule abeille peut visiter des centaines de fleurs en une journée de travail !</p>`,
+  "Le savon chasse le gras": `<p>Se laver les mains chasse aussi plein de microbes minuscules qu'on ne voit pas. Un vrai super-pouvoir !</p>`,
+  "Pourquoi la Lune nous suit": `<p>C'est le même effet que quand tu regardes les montagnes au loin : elles semblent avancer avec toi.</p>`,
+  "Un câlin, ça soigne un peu": `<p>Même se faire un câlin à soi-même, en s'entourant de ses propres bras, peut aider à se calmer.</p>`,
+  "Dire merci rend joyeux": `<p>La gratitude, c'est comme des lunettes magiques qui aident à voir tout le beau autour de toi.</p>`,
 };
 
 /* ============================================================
@@ -1230,12 +1476,13 @@ const load = (k, def) => { try { return JSON.parse(localStorage.getItem(k)) ?? d
 const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
 
 // Profils : 'parent' (adulte), 'charlie' et 'emilie' (les filles). Chacun a SA propre mémoire.
-const MODES = ['parent', 'charlie', 'emilie'];
-const KIDS = ['charlie', 'emilie']; // partagent la même bibliothèque enfants
+const MODES = ['vincent', 'cecile', 'charlie', 'emilie'];
+const ADULTES = ['vincent', 'cecile']; // partagent la bibliothèque adulte
+const KIDS = ['charlie', 'emilie'];    // partagent la bibliothèque enfants
 const isKid = () => KIDS.includes(MODE);
 
-let MODE = load('pdj_mode', 'parent');
-if (!MODES.includes(MODE)) MODE = 'parent';
+let MODE = load('pdj_mode', 'vincent');
+if (!MODES.includes(MODE)) MODE = 'vincent';
 
 let KEY;
 function refreshKeys() {
@@ -1455,14 +1702,15 @@ function switchView(view) {
 }
 // Met à jour l'habillage selon le mode (titre, sous-titre, thème, bouton actif)
 const TITRES = {
-  parent:  ['💭 Mes pensées', 'Fais défiler les idées, une par une. À toi de zapper ou de garder.'],
+  vincent: ['💭 Les pensées de Vincent', 'Fais défiler les idées, une par une. À toi de zapper ou de garder.'],
+  cecile:  ['💭 Les pensées de Cécile', 'Fais défiler les idées, une par une. À toi de zapper ou de garder.'],
   charlie: ['🌸 Les découvertes de Charlie', 'Plein de trucs incroyables à découvrir. Swipe pour en voir un autre !'],
   emilie:  ["🦄 Les découvertes d'Émilie", 'Plein de trucs incroyables à découvrir. Swipe pour en voir un autre !'],
 };
 function applyModeUI() {
   document.body.classList.toggle('kids', isKid());
   document.querySelectorAll('.mode').forEach(b => b.classList.toggle('active', b.dataset.mode === MODE));
-  const [titre, sous] = TITRES[MODE] || TITRES.parent;
+  const [titre, sous] = TITRES[MODE] || TITRES.vincent;
   document.querySelector('header.top h1').textContent = titre;
   document.querySelector('header.top p').textContent = sous;
 }
