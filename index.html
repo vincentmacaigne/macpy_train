@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mes pensées du jour</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #191c24;
+    --card-2: #21252f;
+    --text: #e8eaf0;
+    --muted: #9aa3b2;
+    --accent: #7c9cff;
+    --accent-soft: #2a3350;
+    --green: #58c98a;
+    --green-soft: #1e3a2c;
+    --red: #ec7a7a;
+    --red-soft: #3a2222;
+    --border: #2a2f3a;
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 70% -10%, #1a2140 0%, var(--bg) 55%);
+    color: var(--text);
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 40px 22px 80px; }
+
+  header.top { text-align: center; margin-bottom: 26px; }
+  header.top h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.02em; }
+  header.top p { color: var(--muted); margin: 0; font-size: 0.95rem; }
+
+  /* Bouton Parent / Enfants (en haut) */
+  .mode-switch { display: flex; justify-content: center; margin-bottom: 8px; }
+  .mode {
+    background: var(--card); border: 1px solid var(--border); color: var(--muted);
+    padding: 9px 22px; cursor: pointer; font-size: 0.92rem; font-weight: 700; transition: all .15s ease;
+  }
+  .mode:first-child { border-radius: 999px 0 0 999px; }
+  .mode:last-child { border-radius: 0 999px 999px 0; }
+  .mode + .mode { border-left: none; }
+  .mode.active { background: var(--accent); color: #0f1115; border-color: var(--accent); }
+
+  /* Thème « Enfants » : couleurs plus chaleureuses */
+  body.kids { --accent: #ffb454; --accent-soft: #4a3618; }
+  body.kids { background: radial-gradient(1200px 600px at 70% -10%, #3a2a12 0%, var(--bg) 55%); }
+
+  .tabs { display: flex; gap: 8px; justify-content: center; margin: 24px 0 26px; }
+  .tab {
+    background: var(--card); color: var(--muted); border: 1px solid var(--border);
+    padding: 9px 18px; border-radius: 999px; cursor: pointer; font-size: 0.9rem; transition: all .15s ease;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { background: var(--accent); color: #0f1115; border-color: var(--accent); font-weight: 600; }
+
+  .toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 8px; flex-wrap: wrap;
+  }
+  .toolbar .date { color: var(--muted); font-size: 0.9rem; }
+  .prefs-hint { color: var(--muted); font-size: 0.85rem; margin: 2px 0 20px; }
+  .prefs-hint b { color: var(--accent); }
+
+  .btn {
+    background: var(--card); border: 1px solid var(--border); color: var(--text);
+    padding: 10px 16px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; transition: all .15s ease;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--accent); color: #0f1115; border-color: var(--accent); font-weight: 600; }
+  .btn.primary:hover { color: #0f1115; opacity: .9; }
+
+  .chip {
+    display: inline-block; font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.07em; color: var(--accent); background: var(--accent-soft);
+    padding: 4px 11px; border-radius: 999px; font-weight: 700;
+  }
+
+  .list-item {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 16px 18px; margin-bottom: 12px; cursor: pointer; transition: all .15s ease;
+    position: relative;
+  }
+  .list-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .list-item h3 { margin: 10px 0 6px; font-size: 1.12rem; letter-spacing: -0.01em; }
+  .list-item p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+  .badge {
+    position: absolute; top: 16px; right: 16px; font-size: 0.75rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 999px;
+  }
+  .badge.like { background: var(--green-soft); color: var(--green); }
+  .badge.dislike { background: var(--red-soft); color: var(--red); }
+
+  /* Vue détail (lecture) */
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 28px 30px 32px; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  }
+  .card h2 { font-size: 1.7rem; line-height: 1.25; margin: 14px 0 18px; letter-spacing: -0.02em; }
+  .body p { margin: 0 0 15px; }
+  .body strong { color: #fff; }
+  .why { margin-top: 22px; padding: 16px 18px; background: var(--card-2); border-left: 3px solid var(--accent); border-radius: 10px; }
+  .why .lbl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; }
+  .why p { margin: 6px 0 0; }
+  .read-time { color: var(--muted); font-size: 0.82rem; margin-top: 18px; text-align: right; }
+
+  .rate-row { display: flex; gap: 12px; margin-top: 24px; }
+  .rate {
+    flex: 1; padding: 14px; border-radius: 12px; cursor: pointer; font-size: 0.95rem;
+    font-weight: 600; border: 1px solid var(--border); background: var(--card-2); color: var(--text);
+    transition: all .15s ease;
+  }
+  .rate.like:hover, .rate.like.on { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+  .rate.dislike:hover, .rate.dislike.on { background: var(--red-soft); border-color: var(--red); color: var(--red); }
+
+  /* Cartes dépliables (accordéon) */
+  .card-item {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 16px 18px; margin-bottom: 12px; transition: border-color .15s ease;
+  }
+  .card-item:hover { border-color: var(--accent); }
+  .card-item.open { border-color: var(--accent); }
+  .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; cursor: pointer; }
+  .card-head h3 { margin: 8px 0 6px; font-size: 1.12rem; letter-spacing: -0.01em; }
+  .teaser { margin: 0; color: var(--muted); font-size: 0.9rem; }
+  .lire { color: var(--accent); font-size: 0.82rem; font-weight: 700; white-space: nowrap; align-self: center; }
+  .badge.inline { position: static; margin-left: 8px; display: inline-block; }
+  .card-body { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .card-item.open .card-body { display: block; }
+  .card-item.open .teaser { display: none; }
+  .card-item.open .lire { color: var(--muted); }
+  .more-btn {
+    margin-top: 16px; background: transparent; border: 1px dashed var(--border);
+    color: var(--accent); padding: 9px 14px; border-radius: 10px; cursor: pointer;
+    font-size: 0.85rem; font-weight: 600; transition: border-color .15s ease;
+  }
+  .more-btn:hover { border-color: var(--accent); }
+  .plus { display: none; margin-top: 14px; padding: 16px 18px; background: var(--card-2); border-radius: 10px; }
+  .plus.open { display: block; }
+  .plus p { margin: 0 0 12px; }
+  .plus p:last-child { margin-bottom: 0; }
+  .plus strong { color: #fff; }
+
+  /* Feed façon Tinder : une carte à la fois, qu'on swipe */
+  #swipe-area { position: relative; }
+  .swipe-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 26px 28px 30px; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    touch-action: pan-y; user-select: none; position: relative;
+  }
+  .swipe-card h2 { font-size: 1.6rem; line-height: 1.25; margin: 14px 0 18px; letter-spacing: -0.02em; }
+  .swipe-card.hint-like { border-color: var(--green); box-shadow: 0 0 0 2px var(--green-soft), 0 20px 60px rgba(0,0,0,.35); }
+  .swipe-card.hint-nope { border-color: var(--red);  box-shadow: 0 0 0 2px var(--red-soft),  0 20px 60px rgba(0,0,0,.35); }
+  .stamp {
+    position: absolute; top: 20px; font-size: 1.05rem; font-weight: 800; padding: 6px 14px;
+    border-radius: 10px; text-transform: uppercase; letter-spacing: .05em;
+    opacity: 0; transition: opacity .1s; pointer-events: none; z-index: 2;
+  }
+  .stamp.like { right: 22px; color: var(--green); border: 2px solid var(--green); transform: rotate(12deg); }
+  .stamp.nope { left: 22px;  color: var(--red);   border: 2px solid var(--red);   transform: rotate(-12deg); }
+  .swipe-card.hint-like .stamp.like { opacity: 1; }
+  .swipe-card.hint-nope .stamp.nope { opacity: 1; }
+
+  .actions { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 24px; }
+  .act {
+    width: 64px; height: 64px; border-radius: 50%; font-size: 1.6rem; cursor: pointer;
+    border: 1px solid var(--border); background: var(--card); transition: all .15s ease;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .act:hover { transform: translateY(-3px); }
+  .act.like:hover    { border-color: var(--green); background: var(--green-soft); }
+  .act.dislike:hover { border-color: var(--red);   background: var(--red-soft); }
+  .act.skip { width: 52px; height: 52px; font-size: 1.2rem; }
+  .act.skip:hover { border-color: var(--accent); }
+  .swipe-hint { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 18px; }
+
+  .empty { color: var(--muted); text-align: center; padding: 40px 0; }
+  .hidden { display: none; }
+  footer { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 40px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mode-switch">
+    <button class="mode active" data-mode="parent">👨‍💼 Parent</button>
+    <button class="mode" data-mode="charlie">🌸 Charlie</button>
+    <button class="mode" data-mode="emilie">🦄 Émilie</button>
+  </div>
+
+  <header class="top">
+    <h1>💭 Mes pensées</h1>
+    <p>Fais défiler les idées, une par une. À toi de zapper ou de garder.</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-view="feed">Découvrir</button>
+    <button class="tab" data-view="favs">★ Favoris</button>
+  </div>
+
+  <!-- Vue feed : une carte à la fois, type Tinder -->
+  <section id="view-feed">
+    <div class="prefs-hint" id="prefs-hint"></div>
+    <div id="swipe-area">
+      <div class="swipe-card" id="swipe-card"></div>
+    </div>
+    <div class="actions">
+      <button class="act dislike" id="act-dislike" title="Pas pour moi">👎</button>
+      <button class="act skip" id="act-skip" title="Passer sans noter">⏭️</button>
+      <button class="act like" id="act-like" title="J'aime">👍</button>
+    </div>
+    <p class="swipe-hint">👈 glisse à gauche pour passer &nbsp;·&nbsp; glisse à droite pour aimer 👉</p>
+  </section>
+
+  <!-- Vue favoris -->
+  <section id="view-favs" class="hidden">
+    <div id="favs-list"></div>
+  </section>
+
+  <footer>Codé avec Claude — tout est enregistré dans ton navigateur ✨</footer>
+</div>
+
+<script>
+/* ============================================================
+   1) LA BIBLIOTHÈQUE DE CONTENUS
+   Pour en ajouter un : copie un bloc { cat, titre, corps, why }
+   et remplis-le. "corps" accepte du HTML simple (<p>, <strong>).
+   ============================================================ */
+const PENSEES = [
+  // ---------- SUJETS INTÉRESSANTS ----------
+  { cat:"Sujets intéressants", titre:"Le bateau de Thésée",
+    corps:`<p>Un bateau en bois : on remplace une planche abîmée, puis une autre, jusqu'à ce qu'<strong>aucune planche d'origine ne reste</strong>. Est-ce toujours le même bateau ?</p>
+    <p>Et si on reconstruisait un bateau avec toutes les vieilles planches — lequel est le « vrai » ?</p>
+    <p>L'identité d'une chose n'est peut-être pas dans sa matière, mais dans sa continuité.</p>`,
+    why:"Tes cellules se renouvellent presque toutes en quelques années. Qu'est-ce qui fait que tu restes « toi » ?" },
+
+  { cat:"Sujets intéressants", titre:"L'effet papillon",
+    corps:`<p>Certains systèmes sont si sensibles qu'une <strong>différence minuscule au départ</strong> change tout à l'arrivée.</p>
+    <p>D'où l'image : un battement d'ailes de papillon pourrait, en théorie, déclencher une tornade à l'autre bout du monde.</p>
+    <p>Ce n'est pas magique, c'est mathématique : les petites erreurs s'amplifient à chaque étape. D'où l'impossibilité de prévoir la météo au-delà de ~10 jours.</p>`,
+    why:"Certaines choses sont imprévisibles non par ignorance, mais par nature." },
+
+  { cat:"Sujets intéressants", titre:"La caverne de Platon",
+    corps:`<p>Des prisonniers enchaînés face à un mur voient seulement des ombres projetées par un feu derrière eux. Pour eux, <strong>ces ombres SONT la réalité</strong>.</p>
+    <p>Si l'un s'échappe et découvre le vrai monde, puis revient l'expliquer, les autres ne le croiront pas — et se moqueront de lui.</p>
+    <p>Et si ce qu'on prend pour la réalité n'était que des ombres ?</p>`,
+    why:"2400 ans plus tard, une métaphore parfaite de l'esprit critique et de la difficulté à faire voir aux autres ce qu'on a compris." },
+
+  { cat:"Sujets intéressants", titre:"Le paradoxe de l'anniversaire",
+    corps:`<p>Dans un groupe de 23 personnes, la probabilité que deux partagent le même anniversaire dépasse <strong>50 %</strong>. Contre-intuitif !</p>
+    <p>Le piège : on pense « moi vs les autres ». Mais il faut compter toutes les paires : 23 personnes = 253 paires possibles.</p>
+    <p>Chaque paire a une petite chance de coïncider ; avec autant de paires, ça devient probable.</p>`,
+    why:"Notre cerveau est mauvais avec les combinaisons. Ce paradoxe est au cœur de la sécurité informatique." },
+
+  { cat:"Sujets intéressants", titre:"L'entropie",
+    corps:`<p>Il y a une seule façon d'avoir une chambre rangée, mais des <strong>millions</strong> de façons de l'avoir en désordre.</p>
+    <p>Donc au hasard, les choses glissent presque toujours vers le désordre : il y a beaucoup plus d'états désordonnés.</p>
+    <p>C'est une loi de l'univers, et elle donne une « flèche » au temps : on se souvient du passé, pas du futur.</p>`,
+    why:"Ranger, construire, maintenir la vie : lutter localement contre une pente universelle. Ça demande toujours de l'énergie." },
+
+  // ---------- DÉVELOPPEMENT PERSONNEL ----------
+  { cat:"Développement personnel", titre:"La règle des 2 minutes",
+    corps:`<p>Deux usages puissants. 1) Si une tâche prend <strong>moins de 2 minutes, fais-la tout de suite</strong> plutôt que de la reporter.</p>
+    <p>2) Pour créer une habitude, rends-la si petite qu'elle prend moins de 2 minutes : « lire une page », « une pompe ». Le but est d'abord de <em>commencer</em>.</p>`,
+    why:"L'inertie est le vrai ennemi : commencer est bien plus dur que continuer. Baisse la barrière du départ." },
+
+  { cat:"Développement personnel", titre:"1 % meilleur chaque jour",
+    corps:`<p>S'améliorer de 1 % par jour paraît dérisoire. Mais 1,01 puissance 365 ≈ <strong>37</strong>. En un an, tu es 37 fois « meilleur ».</p>
+    <p>À l'inverse, 1 % de moins chaque jour te ramène presque à zéro.</p>
+    <p>On surestime les grands changements ponctuels et on sous-estime les petits gestes répétés.</p>`,
+    why:"Vise le système (la routine), pas seulement l'objectif. Les petits gains composés font tout." },
+
+  { cat:"Développement personnel", titre:"La zone d'apprentissage",
+    corps:`<p>Trois zones : le <strong>confort</strong> (rien de neuf), l'<strong>apprentissage</strong> (un défi juste au-dessus de ton niveau), la <strong>panique</strong> (trop dur, tu bloques).</p>
+    <p>On ne progresse que dans la zone d'apprentissage : assez inconfortable pour stimuler, pas assez pour décourager.</p>`,
+    why:"Si c'est trop facile tu stagnes, trop dur tu abandonnes. Cherche le « juste assez difficile »." },
+
+  { cat:"Développement personnel", titre:"Se parler comme à un ami",
+    corps:`<p>La critique intérieure dure (« je suis nul ») ne motive pas : elle paralyse.</p>
+    <p>L'auto-compassion, c'est se parler comme on parlerait à un ami qui échoue : avec bienveillance et lucidité.</p>
+    <p>La recherche montre que ça améliore la résilience et la persévérance plus que l'autoflagellation.</p>`,
+    why:"Tu es la voix que tu entends le plus souvent. Autant qu'elle soit un allié." },
+
+  { cat:"Développement personnel", titre:"Mettre des mots sur ses émotions",
+    corps:`<p>Écrire ses pensées 10 minutes, ou simplement nommer ce qu'on ressent, <strong>réduit l'intensité de l'émotion</strong> (les chercheurs parlent d'« affect labeling »).</p>
+    <p>Le cerveau traite mieux ce qui est nommé : un flou anxieux devient un problème identifié, donc gérable.</p>`,
+    why:"« Je suis débordé » vague fait plus mal que « j'ai 3 tâches en retard » précis. Nommer, c'est déjà agir." },
+
+  // ---------- PRO / TRAVAIL ----------
+  { cat:"Pro", titre:"La matrice d'Eisenhower",
+    corps:`<p>Classe chaque tâche selon deux axes : urgent ? important ?</p>
+    <p><strong>Important + urgent</strong> → fais. <strong>Important, pas urgent</strong> → planifie. <strong>Urgent, pas important</strong> → délègue. <strong>Ni l'un ni l'autre</strong> → supprime.</p>
+    <p>Le quadrant le plus négligé — et le plus payant — est « important mais pas urgent » (santé, formation, relations).</p>`,
+    why:"On confond urgent et important. Le vrai levier est ce qui compte sans crier." },
+
+  { cat:"Pro", titre:"La loi de Parkinson",
+    corps:`<p>« Le travail s'étale jusqu'à occuper tout le temps disponible. »</p>
+    <p>Donne-toi 2 semaines pour une tâche, elle prendra 2 semaines. Donne-toi 2 jours, souvent 2 jours suffisent.</p>`,
+    why:"Fixer des délais courts et volontairement serrés booste l'efficacité et coupe la procrastination." },
+
+  { cat:"Pro", titre:"Le principe de Pareto (80/20)",
+    corps:`<p>Environ <strong>80 % des résultats viennent de 20 % des causes</strong>. 20 % des clients font 80 % du chiffre, 20 % des efforts donnent 80 % des effets.</p>
+    <p>Ce n'est pas une loi exacte, mais un réflexe : tout n'a pas le même poids.</p>`,
+    why:"Identifie les 20 % qui comptent vraiment, et concentre-toi dessus au lieu de tout traiter à égalité." },
+
+  { cat:"Pro", titre:"Assertif, ni passif ni agressif",
+    corps:`<p>Trois façons de réagir : <strong>passif</strong> (je me tais, je subis), <strong>agressif</strong> (j'impose, j'écrase), <strong>assertif</strong> (j'exprime clairement mon besoin en respectant l'autre).</p>
+    <p>Astuce : parler en « je » (« j'ai besoin de… ») plutôt qu'en « tu » accusateur (« tu ne fais jamais… »).</p>`,
+    why:"L'assertivité préserve la relation ET fait passer le message. Les deux, pas l'un contre l'autre." },
+
+  { cat:"Pro", titre:"Donner un feedback qui passe (SBI)",
+    corps:`<p>Pour un retour efficace, décris trois choses : la <strong>Situation</strong>, le <strong>Comportement</strong> observé (factuel), et son <strong>Impact</strong>.</p>
+    <p>« En réunion hier (S), tu as coupé la parole à Marie (C), du coup elle n'a pas pu finir son idée (I). »</p>
+    <p>Pas de jugement (« tu es irrespectueux »), juste des faits et leurs effets.</p>`,
+    why:"Un feedback factuel est mieux reçu qu'un jugement — et donne une piste claire pour changer." },
+
+  // ---------- SPORT ----------
+  { cat:"Sport", titre:"On progresse pendant le repos",
+    corps:`<p>L'entraînement <strong>abîme</strong> un peu les muscles. C'est ensuite, au repos, que le corps les reconstruit un peu plus forts : c'est la surcompensation.</p>
+    <p>Trop d'entraînement sans récupération = on stagne, voire on régresse.</p>`,
+    why:"Le progrès se fait au repos autant qu'à l'effort. Dormir et récupérer font partie de l'entraînement." },
+
+  { cat:"Sport", titre:"Le cardio « zone 2 »",
+    corps:`<p>Un effort <strong>modéré où tu peux encore tenir une conversation</strong>. Ça développe l'endurance de fond, la santé du cœur, et brûle les graisses — sans t'épuiser.</p>
+    <p>La plupart des athlètes d'endurance passent l'essentiel de leur temps à cette intensité facile.</p>`,
+    why:"Tout ne doit pas être « à fond ». Le facile bien dosé construit une base solide." },
+
+  { cat:"Sport", titre:"La surcharge progressive",
+    corps:`<p>Le corps s'adapte à ce qu'on lui demande de façon répétée. Pour continuer à progresser, il faut <strong>augmenter graduellement</strong> la difficulté : plus de poids, de répétitions, de distance.</p>
+    <p>Refaire toujours exactement la même séance = plateau.</p>`,
+    why:"Sans stimulus croissant, pas de progrès. Ajoute un petit peu, régulièrement." },
+
+  { cat:"Sport", titre:"La force part du centre",
+    corps:`<p>Le « core » (abdominaux profonds, dos, bassin) stabilise tout le corps. Un centre solide protège le dos et améliore <strong>toutes</strong> les autres performances.</p>
+    <p>Le gainage (planche) travaille cette stabilité mieux que les abdos « à la mode ».</p>`,
+    why:"Un tronc faible limite tout le reste. Renforce le centre avant les extrémités." },
+
+  { cat:"Sport", titre:"Le sommeil, meilleur « supplément »",
+    corps:`<p>C'est pendant le sommeil que le corps répare les tissus, consolide les apprentissages moteurs et régule les hormones.</p>
+    <p>Manquer de sommeil réduit la force, la récupération et… la motivation à s'entraîner.</p>`,
+    why:"Mieux vaut bien dormir que s'entraîner épuisé. Aucun complément ne remplace le sommeil." },
+
+  // ---------- NUTRITION ----------
+  { cat:"Nutrition", titre:"L'index glycémique",
+    corps:`<p>C'est la vitesse à laquelle un aliment fait monter le sucre dans le sang. <strong>IG élevé</strong> (sucre, pain blanc) = pic puis chute = faim et coup de barre.</p>
+    <p><strong>IG bas</strong> (légumineuses, flocons d'avoine, légumes) = énergie plus stable et durable.</p>`,
+    why:"Privilégier les IG bas stabilise ton énergie et ton appétit sur la journée." },
+
+  { cat:"Nutrition", titre:"Les protéines rassasient",
+    corps:`<p>Parmi les nutriments, les <strong>protéines</strong> (œufs, poisson, légumineuses, viande) coupent la faim le plus longtemps et servent à réparer et construire les muscles.</p>
+    <p>Un repas riche en protéines évite mieux le grignotage qu'un repas gras ou sucré.</p>`,
+    why:"Pour tenir sans fringale, charge d'abord en protéines." },
+
+  { cat:"Nutrition", titre:"Soif ou faim ?",
+    corps:`<p>On confond souvent les deux : une petite envie de grignoter est parfois une <strong>légère déshydratation</strong>.</p>
+    <p>Or même une déshydratation modérée baisse la concentration et l'énergie.</p>`,
+    why:"Un verre d'eau avant de céder à une fringale règle souvent le « problème » — et améliore le focus." },
+
+  { cat:"Nutrition", titre:"Les fibres nourrissent ton microbiote",
+    corps:`<p>Les fibres (légumes, fruits, céréales complètes) ne sont pas digérées par toi, mais par les <strong>bonnes bactéries de ton intestin</strong>.</p>
+    <p>Ce microbiote influence la digestion, l'immunité, et même l'humeur.</p>`,
+    why:"Manger des fibres, c'est soigner bien plus que sa digestion. C'est nourrir un écosystème entier." },
+
+  { cat:"Nutrition", titre:"Le déficit calorique",
+    corps:`<p>On perd du poids quand on <strong>dépense plus de calories qu'on en consomme</strong> — quel que soit le régime à la mode.</p>
+    <p>Les régimes « miracles » fonctionnent surtout parce qu'ils créent ce déficit d'une manière ou d'une autre.</p>`,
+    why:"Comprendre ce principe simple te libère des régimes miracles et des culpabilités inutiles." },
+
+  // ---------- GÉOPOLITIQUE ----------
+  { cat:"Géopolitique", titre:"Les points d'étranglement maritimes",
+    corps:`<p>Quelques passages étroits — détroit d'Ormuz, canal de Suez, détroit de Malacca — voient transiter une <strong>énorme part</strong> du pétrole et du commerce mondial.</p>
+    <p>Les bloquer, même quelques jours, peut paralyser des pans entiers de l'économie mondiale.</p>`,
+    why:"Quelques points minuscules sur la carte concentrent un pouvoir géopolitique immense." },
+
+  { cat:"Géopolitique", titre:"La malédiction des ressources",
+    corps:`<p>Paradoxe : beaucoup de pays très riches en pétrole ou en minerais sont plus <strong>pauvres et instables</strong> que des pays sans ressources.</p>
+    <p>La rente facile attise la corruption, finance les conflits et étouffe le reste de l'économie.</p>`,
+    why:"La richesse du sous-sol ne garantit pas la prospérité — parfois c'est même l'inverse." },
+
+  { cat:"Géopolitique", titre:"Le soft power",
+    corps:`<p>Le pouvoir d'un pays ne vient pas que des armes. Le <strong>soft power</strong>, c'est influencer par sa culture, ses valeurs, son attractivité : films, musique, universités, mode.</p>
+    <p>Quand le monde regarde tes séries et rêve de tes universités, tu gagnes sans tirer un coup de feu.</p>`,
+    why:"Séduire coûte moins cher et dure plus longtemps que contraindre." },
+
+  { cat:"Géopolitique", titre:"Les terres rares",
+    corps:`<p>Ce sont des métaux essentiels à l'électronique, aux batteries, aux éoliennes, aux moteurs. Sans eux, pas de smartphone ni de voiture électrique.</p>
+    <p>Leur extraction et leur raffinage sont très <strong>concentrés dans quelques pays</strong> — ce qui en fait un puissant levier stratégique.</p>`,
+    why:"Qui contrôle ces métaux pèse sur toute la technologie mondiale." },
+
+  { cat:"Géopolitique", titre:"Le dilemme de sécurité",
+    corps:`<p>Un pays s'arme pour se défendre. Ses voisins le voient, se sentent menacés, et s'arment à leur tour.</p>
+    <p>Résultat : tout le monde finit <strong>moins</strong> en sécurité qu'au départ — alors que personne ne voulait la guerre.</p>`,
+    why:"Explique bien des courses aux armements : de bonnes intentions individuelles, un résultat collectif dangereux." },
+
+  // ---------- TECHNIQUES ----------
+  { cat:"Techniques", titre:"La technique Pomodoro",
+    corps:`<p>Travaille <strong>25 minutes concentré</strong>, sans distraction, puis prends 5 minutes de pause. Répète. Toutes les 4 sessions, une pause plus longue.</p>
+    <p>Le minuteur crée une petite urgence et rend les grosses tâches moins intimidantes : tu ne t'engages que pour 25 minutes.</p>`,
+    why:"Découper le temps en petits blocs bat la procrastination et protège ta concentration." },
+
+  { cat:"Techniques", titre:"La répétition espacée",
+    corps:`<p>Pour mémoriser durablement, révise à <strong>intervalles croissants</strong> (1 jour, 3 jours, 1 semaine, 1 mois…) plutôt que tout d'un coup.</p>
+    <p>On retient beaucoup mieux quand on révise juste avant d'oublier.</p>`,
+    why:"Réviser peu mais au bon moment bat le bachotage de dernière minute — pour un effort total bien moindre." },
+
+  { cat:"Techniques", titre:"La méthode Feynman",
+    corps:`<p>Pour vraiment comprendre un sujet, <strong>explique-le simplement</strong>, comme à un enfant de 10 ans.</p>
+    <p>Là où tu bafouilles ou emploies du jargon, c'est que tu n'as pas encore compris. Retourne au point flou, puis réessaie.</p>`,
+    why:"Enseigner révèle impitoyablement les trous de ta compréhension. C'est le meilleur test." },
+
+  { cat:"Techniques", titre:"Expliquer à voix haute (rubber duck)",
+    corps:`<p>Bloqué sur un problème ? Explique-le <strong>à voix haute</strong>, dans le détail — même à un canard en plastique posé sur ton bureau.</p>
+    <p>Très souvent, la solution apparaît d'elle-même au moment où tu la formules.</p>`,
+    why:"Verbaliser force ton cerveau à structurer le problème. C'est un débogueur gratuit." },
+
+  { cat:"Techniques", titre:"Le time-blocking",
+    corps:`<p>Au lieu d'une to-do list qui flotte, <strong>réserve des créneaux précis</strong> dans ton agenda pour chaque type de tâche : « 9h-10h : e-mails », « 14h-16h : projet ».</p>
+    <p>Une tâche sans moment assigné a tendance à ne jamais se faire.</p>`,
+    why:"Donner une heure à une intention, c'est la transformer en rendez-vous que tu tiens." },
+
+  // ---------- INGÉNIERIE & MER ----------
+  { cat:"Ingénierie & Mer", titre:"Le positionnement RTK",
+    corps:`<p>Un GPS classique donne une précision de l'ordre du mètre. Le <strong>RTK</strong> (Real-Time Kinematic) utilise une station de référence fixe qui mesure l'erreur commune aux satellites et la corrige en temps réel — précision <strong>centimétrique</strong>.</p>
+    <p>C'est ce qui permet de poser un pieu, une caisson ou un tronçon de digue exactement là où le plan l'exige.</p>`,
+    why:"La précision ne vient pas d'un meilleur satellite, mais de la correction différentielle : isoler l'erreur commune et la soustraire." },
+
+  { cat:"Ingénierie & Mer", titre:"Le sondeur multifaisceaux",
+    corps:`<p>Un sondeur monofaisceau mesure la profondeur point par point, sous le bateau. Le <strong>multifaisceaux</strong> émet un éventail de faisceaux et cartographie une bande entière du fond en un seul passage — des dizaines de milliers de points par seconde.</p>
+    <p>C'est le passage du crayon au scanner : on ne sonde plus une ligne, on numérise une surface.</p>`,
+    why:"La donnée n'a de valeur que géoréférencée : chaque point doit intégrer position, attitude (roulis, tangage, houle) et célérité du son." },
+
+  { cat:"Ingénierie & Mer", titre:"La vitesse du son dans l'eau",
+    corps:`<p>Un sondeur ne mesure pas une distance, mais un <strong>temps de trajet</strong> aller-retour. Pour le convertir en profondeur, il faut connaître la vitesse du son — qui varie de ~1450 à 1550 m/s selon température, salinité et pression.</p>
+    <p>Une erreur de célérité courbe littéralement le fond mesuré : des artefacts en « sourire » ou « fronce » trahissent un mauvais profil de son.</p>`,
+    why:"Le capteur ne « voit » pas la profondeur, il la calcule via un modèle du milieu. Maîtriser le milieu, c'est maîtriser la mesure." },
+
+  // ---------- INVESTISSEMENT ----------
+  { cat:"Investissement", titre:"Le cycle de la dette",
+    corps:`<p>Ray Dalio distingue deux cycles : un cycle de dette <strong>court</strong> (~5-8 ans, la récession classique) et un cycle <strong>long</strong> (~50-75 ans) qui se solde par un désendettement massif.</p>
+    <p>Savoir où l'on se situe dans ces cycles éclaire les taux, l'inflation et la valorisation des actifs bien mieux que l'actualité du jour.</p>`,
+    why:"La macro n'est pas du bruit : c'est la marée qui soulève ou abaisse tous les bateaux. Sélectionner des titres sans vue macro, c'est ramer à contre-courant." },
+
+  { cat:"Investissement", titre:"La J-curve du private equity",
+    corps:`<p>Un fonds de PE perd d'abord de l'argent — frais de gestion, participations pas encore revalorisées — avant de générer ses retours : la courbe des rendements dessine un <strong>« J »</strong>.</p>
+    <p>Les premières années sont négatives par construction, pas par échec.</p>`,
+    why:"Juger un fonds sur ses 2-3 premières années n'a pas de sens. L'illiquidité est le prix — et parfois la source — de la prime de rendement." },
+
+  { cat:"Investissement", titre:"Les taux, gravité des actifs",
+    corps:`<p>La valeur de tout actif se lit par rapport au <strong>taux sans risque</strong> (obligations d'État). Quand les taux montent, le coût de l'argent monte, et les actifs à cash-flows lointains (tech, PE, immobilier) sont mécaniquement dévalorisés.</p>`,
+    why:"Buffett : « les taux d'intérêt sont à la valeur des actifs ce que la gravité est à la matière. » Tout se mesure par rapport à eux." },
+
+  // ---------- STRATÉGIE & PI ----------
+  { cat:"Stratégie & PI", titre:"Le brevet : divulguer pour protéger",
+    corps:`<p>Un brevet est un marché avec l'État : un monopole temporaire (20 ans) <strong>en échange de la divulgation publique</strong> de l'invention. Le secret, lui, protège indéfiniment mais s'effondre à la première fuite (la recette du Coca n'est pas brevetée).</p>`,
+    why:"Breveter, c'est enseigner à ses concurrents. Le vrai choix : monopole limité mais public, ou secret illimité mais fragile." },
+
+  { cat:"Stratégie & PI", titre:"Les douves économiques (moat)",
+    corps:`<p>Un avantage concurrentiel durable vient de peu de sources : <strong>effets de réseau</strong>, coûts de transfert, avantage de coût structurel, actifs intangibles (marque, brevets), économies d'échelle. Le reste s'érode vite.</p>`,
+    why:"Une bonne marge attire les prédateurs. La question n'est pas « es-tu rentable ? » mais « qu'est-ce qui empêche un concurrent de copier ta rentabilité ? »" },
+
+  // ---------- ENDURANCE ----------
+  { cat:"Endurance", titre:"Le seuil lactique",
+    corps:`<p>À basse intensité, le corps recycle le lactate au fur et à mesure. Au-delà d'un <strong>seuil</strong>, la production dépasse l'élimination : le lactate s'accumule et l'effort devient rapidement intenable.</p>
+    <p>Repousser ce seuil est le cœur de l'entraînement d'endurance.</p>`,
+    why:"En half-Ironman, ce qui compte n'est pas ta VO2max maximale, mais la fraction que tu peux tenir des heures — ton seuil." },
+
+  { cat:"Endurance", titre:"VO2max contre économie",
+    corps:`<p>Deux athlètes de même VO2max ne vont pas à la même vitesse : celui qui a la meilleure <strong>économie</strong> (moins d'énergie dépensée à allure donnée) gagne. Ça se travaille par la technique, la force et le volume.</p>`,
+    why:"Passé un certain niveau, on ne progresse plus en poussant le moteur (VO2max) mais en réduisant les frottements (économie). Rendement > puissance brute." },
+
+  // ---------- MOTO ----------
+  { cat:"Moto", titre:"Le contre-braquage",
+    corps:`<p>À vitesse, pour tourner à droite en moto, on <strong>pousse le guidon vers la gauche</strong>. Ce contre-braquage fait pencher la machine dans le virage. Contre-intuitif — et pourtant tous les motards le font, souvent sans le savoir.</p>`,
+    why:"L'effet gyroscopique des roues renverse l'intuition. Un système rapide n'obéit pas aux mêmes règles qu'un système lent." },
+
+  // ---------- HISTOIRE MILITAIRE ----------
+  { cat:"Histoire militaire", titre:"La stratégie indirecte",
+    corps:`<p>Plutôt que d'attaquer l'ennemi de front (coûteux), Liddell Hart prône l'<strong>approche indirecte</strong> : le déséquilibrer, couper ses lignes, frapper où il ne défend pas, viser le moral avant les forces.</p>`,
+    why:"Sun Tzu déjà : « l'excellence suprême est de soumettre l'ennemi sans combattre. » Directement transposable en négociation et en business." },
+
+  { cat:"Histoire militaire", titre:"La boucle OODA (Boyd)",
+    corps:`<p>Le pilote de chasse John Boyd a formalisé la boucle <strong>Observer – Orienter – Décider – Agir</strong>. Celui qui la boucle plus vite que l'adversaire lui impose le tempo, jusqu'à la paralysie décisionnelle.</p>`,
+    why:"Née en combat aérien, reprise par les startups : en environnement incertain, la vitesse de décision bat la planification lente et parfaite." },
+
+  // ---------- ENTREPRENEURIAT ----------
+  { cat:"Entrepreneuriat", titre:"Marge n'est pas trésorerie",
+    corps:`<p>Une entreprise rentable peut mourir faute de <strong>cash</strong> : une croissance qui dévore le besoin en fonds de roulement, des clients qui paient à 90 jours. Le profit est une opinion comptable ; la trésorerie est un fait.</p>`,
+    why:"« Revenue is vanity, profit is sanity, cash is king. » On ne fait pas faillite parce qu'on perd de l'argent, mais parce qu'on n'a plus de quoi payer." },
+];
+
+/* ============================================================
+   1 bis) CONTENUS APPROFONDIS (bouton « Plus de détails »)
+   Clé = le titre exact du contenu ci-dessus. Optionnel.
+   ============================================================ */
+const DETAILS = {
+  "Le bateau de Thésée": `<p>Ce casse-tête a une portée très concrète. Une entreprise qui change de nom, de dirigeants, de locaux et de métier est-elle la même société ? Juridiquement oui, tant qu'une continuité formelle existe — preuve que l'identité tient souvent à une <strong>convention</strong>, pas à la matière.</p>
+    <p>Les philosophes proposent deux réponses. Pour les « endurantistes », l'objet reste le même à travers le temps. Pour les « perdurantistes », un objet est la somme de ses tranches temporelles, comme un film est la somme de ses images : le bateau d'hier et celui d'aujourd'hui sont deux tranches d'un même « ver » étalé dans le temps. Le paradoxe s'évapore alors — il n'y a jamais eu un unique « même » bateau figé, mais un processus.</p>`,
+
+  "L'effet papillon": `<p>Le terme vient du météorologue Edward Lorenz (1963). En arrondissant une donnée de 0,506127 à 0,506 dans sa simulation, il obtint une météo totalement différente : il venait de découvrir la « sensibilité aux conditions initiales », pilier de la théorie du chaos.</p>
+    <p>Attention au contresens : chaos ne veut pas dire hasard. Ces systèmes sont parfaitement déterministes — mêmes causes, mêmes effets. Le problème est pratique : on ne mesure jamais le départ avec une précision infinie, et la moindre imprécision explose au fil des calculs. D'où une leçon générale : dans un système chaotique, mieux vaut des prévisions probabilistes à court terme que de fausses certitudes à long terme.</p>`,
+
+  "La caverne de Platon": `<p>Dans le texte (La République, livre VII), Platon précise que le prisonnier libéré <strong>souffre</strong> : la lumière l'aveugle, la remontée est rude. La vérité n'est pas confortable, elle se conquiert.</p>
+    <p>La métaphore fonctionne encore : les ombres, ce sont nos écrans, nos fils d'actualité, les récits tout faits. Sortir de la caverne, c'est l'esprit critique — remonter à la source, distinguer l'apparence de la cause. Et le sort du prisonnier qui revient (moqué, voire menacé) rappelle pourquoi il est si dur de faire changer d'avis : on ne se contente pas d'apporter une info, on demande à l'autre d'admettre qu'il vivait dans l'illusion.</p>`,
+
+  "Le paradoxe de l'anniversaire": `<p>Le calcul se fait « à l'envers » : on cherche la probabilité qu'<strong>aucune</strong> paire ne coïncide, puis on soustrait de 100 %. Pour 23 personnes, elle tombe sous 50 %, donc la probabilité d'au moins une coïncidence dépasse 50 %.</p>
+    <p>Dès 57 personnes, on dépasse 99 %. En sécurité informatique, ce principe fonde « l'attaque des anniversaires » : pour trouver deux fichiers ayant la même empreinte (hash), il faut bien moins d'essais que l'intuition ne le suggère — environ la racine carrée du nombre total de possibilités. C'est pour ça que les empreintes doivent être très longues.</p>`,
+
+  "L'entropie": `<p>L'entropie mesure le nombre de configurations « microscopiques » qui donnent le même état « macroscopique ». Une pièce en désordre a un nombre gigantesque d'arrangements possibles ; rangée, presque un seul. Le hasard favorise donc le désordre par pur comptage.</p>
+    <p>La nuance clé : l'entropie n'augmente forcément que pour un système <strong>isolé</strong> (l'univers entier). Localement, on peut créer de l'ordre — un cristal, un être vivant, une maison rangée — à condition de dépenser de l'énergie et d'exporter du désordre ailleurs (chaleur, déchets). La vie n'échappe pas à la règle : elle « paie » son ordre en augmentant le désordre autour d'elle.</p>`,
+
+  "La règle des 2 minutes": `<p>La première version vient de David Allen (méthode « Getting Things Done ») : elle vide la tête des micro-tâches qui, accumulées, créent une charge mentale démesurée par rapport à leur poids réel.</p>
+    <p>La seconde, popularisée par James Clear, sert à démarrer les grosses habitudes : « faire 10 min de sport » devient « mettre mes chaussures ». Le but n'est pas la performance mais la <strong>répétition</strong> : on ancre d'abord le geste de départ. Une fois lancé, on continue souvent bien au-delà — et même les jours sans, on a maintenu la chaîne. C'est la régularité qui construit l'habitude, pas l'intensité.</p>`,
+
+  "1 % meilleur chaque jour": `<p>Le calcul exact : 1,01<sup>365</sup> ≈ 37,8, contre 0,99<sup>365</sup> ≈ 0,03. L'écart entre progresser et régresser de 1 % par jour est d'un facteur ~1000 sur un an. C'est la puissance des intérêts composés appliquée à soi-même.</p>
+    <p>Mais il y a un piège rarement dit : les résultats sont d'abord <strong>invisibles</strong>. Un glaçon ne fond pas à -5, -4, -3, -2, -1… puis fond d'un coup à 0 °C. Beaucoup abandonnent dans la « vallée de la déception », juste avant que les gains composés ne deviennent visibles. La leçon : juge-toi sur la constance du processus, pas sur les résultats à court terme.</p>`,
+
+  "La zone d'apprentissage": `<p>Ce modèle recoupe la notion de « flow » (Csikszentmihalyi) : on est absorbé et performant quand le défi dépasse légèrement nos compétences. Trop facile = ennui ; trop dur = anxiété.</p>
+    <p>Application : pour progresser vite, découpe une compétence et attaque la sous-partie juste hors de portée. Un joueur d'échecs n'enchaîne pas des parties faciles, il analyse ses défaites ; un musicien travaille les 4 mesures difficiles, pas le morceau entier. C'est la « pratique délibérée » : inconfortable, ciblée, avec un retour immédiat sur l'erreur.</p>`,
+
+  "Se parler comme à un ami": `<p>Kristin Neff, la chercheuse de référence, distingue trois piliers : la <strong>bienveillance</strong> envers soi (vs jugement), l'<strong>humanité commune</strong> (l'échec est universel, pas une tare personnelle), et la <strong>pleine conscience</strong> (observer sa douleur sans la dramatiser ni la fuir).</p>
+    <p>Contre-intuitif mais démontré : l'auto-compassion ne rend pas complaisant. Ceux qui la pratiquent prennent <em>mieux</em> leurs responsabilités, car reconnaître une erreur est moins menaçant quand on ne s'auto-détruit pas pour autant. La dureté envers soi, elle, pousse souvent à nier ses erreurs pour se protéger.</p>`,
+
+  "Mettre des mots sur ses émotions": `<p>L'imagerie cérébrale montre que nommer une émotion (« je ressens de la colère ») active le cortex préfrontal et calme l'amygdale, le centre de l'alarme. Mettre un mot, c'est littéralement reprendre la main sur le cerveau émotionnel.</p>
+    <p>En pratique : l'écriture expressive (10 min, plusieurs jours de suite) est associée à moins de stress et un meilleur sommeil. Élargir son vocabulaire aide aussi : distinguer « déçu », « frustré », « anxieux » plutôt qu'un vague « mal » permet des réponses plus adaptées. <strong>On ne régule pas ce qu'on ne sait pas nommer.</strong></p>`,
+
+  "La matrice d'Eisenhower": `<p>L'idée est attribuée à Eisenhower : « Ce qui est important est rarement urgent, et ce qui est urgent est rarement important. » Le piège moderne est de vivre en pompier, dans l'urgent, en sacrifiant l'important non urgent — qui est justement ce qui, à terme, réduit les urgences.</p>
+    <p>Astuce : bloque chaque semaine un créneau pour le quadrant « important / non urgent » <strong>avant</strong> que l'agenda ne se remplisse. Et méfie-toi de « l'urgent des autres » (mails, sollicitations) : c'est souvent important pour eux, pas pour tes objectifs. Déléguer ou dire non n'est pas de la paresse, c'est de la stratégie.</p>`,
+
+  "La loi de Parkinson": `<p>Énoncée par Cyril Parkinson en 1955 à propos des bureaucraties, elle a une explication psychologique : sans contrainte, on ajoute perfectionnisme, détours et procrastination pour « remplir » le temps offert.</p>
+    <p>Deux leviers. 1) Des délais courts et <strong>publics</strong> (un engagement pris devant quelqu'un). 2) Le « time-boxing » : au lieu de « je finis quand c'est parfait », décide « j'y consacre 90 minutes, point ». Paradoxalement, la contrainte de temps améliore souvent la qualité, car elle force à se concentrer sur l'essentiel plutôt qu'à polir l'accessoire.</p>`,
+
+  "Le principe de Pareto (80/20)": `<p>Vilfredo Pareto avait remarqué que 20 % des Italiens possédaient 80 % des terres. On a ensuite retrouvé ce déséquilibre partout : 20 % des bugs causent 80 % des plantages, 20 % des clients génèrent 80 % des réclamations…</p>
+    <p>Deux usages complémentaires. <strong>Positif</strong> : repère les 20 % d'actions à fort rendement et double la mise dessus. <strong>Négatif</strong> : traque les 20 % de causes qui créent 80 % de tes problèmes et élimine-les d'abord. À ne pas prendre comme un dogme : ce n'est pas toujours 80/20 exactement, c'est un rappel que efforts et effets ne sont presque jamais répartis également.</p>`,
+
+  "Assertif, ni passif ni agressif": `<p>L'assertivité s'apprend avec des formules. Le « DESC » : <strong>D</strong>écrire les faits, <strong>E</strong>xprimer son ressenti, <strong>S</strong>pécifier ce qu'on souhaite, <strong>C</strong>onclure sur les bénéfices. Ex. : « Quand la réunion déborde (D), je suis gêné car je dois partir (E) ; peut-on caler une fin ferme à 18h (S) ? On y gagnera en efficacité (C). »</p>
+    <p>Autre outil : le « disque rayé » — répéter calmement sa position sans se justifier à l'infini ni monter dans l'agressivité. L'assertivité, ce n'est pas gagner contre l'autre : c'est défendre son besoin tout en respectant le sien. La posture qui préserve à la fois l'estime de soi et la relation.</p>`,
+
+  "Donner un feedback qui passe (SBI)": `<p>Le modèle SBI vient du Center for Creative Leadership. Sa force : séparer le fait observable du jugement. « Tu es désorganisé » est une étiquette qui braque ; « le rapport est arrivé 2 jours après la date (fait), du coup le client a relancé (impact) » est factuel et actionnable.</p>
+    <p>Deux compléments. Demande l'<strong>intention</strong> (« quel était ton objectif ? ») : souvent l'autre n'avait pas conscience de l'impact. Et soigne le feedback <em>positif</em> avec la même méthode : dire précisément quel comportement a eu quel bon effet renforce ce comportement bien mieux qu'un « bravo » vague.</p>`,
+
+  "On progresse pendant le repos": `<p>Le mécanisme s'appelle la surcompensation : après l'effort, la capacité baisse (fatigue), puis remonte <strong>au-dessus</strong> du niveau initial pendant la récupération. Se réentraîner au bon moment (au pic) fait monter la courbe ; trop tôt ou trop tard, on stagne.</p>
+    <p>D'où la « périodisation » : alterner semaines dures et semaines légères (« deload »). Le surentraînement est réel — sommeil dégradé, irritabilité, blessures, performances en baisse malgré plus d'efforts. Écouter ces signaux n'est pas de la faiblesse : c'est ce qui permet de progresser sur la durée.</p>`,
+
+  "Le cardio « zone 2 »": `<p>La zone 2, c'est environ 60-70 % de ta fréquence cardiaque max : un rythme où tu peux parler en phrases complètes. À cette intensité, le corps brûle surtout des graisses et développe les mitochondries (les « usines à énergie » des cellules) et les capillaires.</p>
+    <p>Les athlètes appliquent souvent la règle 80/20 : ~80 % du volume en facile, ~20 % en intensité élevée. L'erreur de l'amateur est de tout faire à intensité « moyenne-dure » : trop dur pour bien récupérer, pas assez pour créer un vrai stimulus. Le facile construit la base ; l'intense ajoute le sommet.</p>`,
+
+  "La surcharge progressive": `<p>C'est le principe n°1 de toute progression (principe SAID : adaptation spécifique aux demandes imposées). Le corps s'adapte exactement au niveau de contrainte habituel ; sans augmentation, aucune raison de changer.</p>
+    <p>On peut surcharger autrement qu'en ajoutant du poids : plus de répétitions, de séries, moins de repos, une plus grande amplitude, une meilleure exécution. La progression doit rester graduelle pour laisser tendons et articulations s'adapter (plus lents que les muscles). Trop vite = blessure ; trop lentement = plateau. Un carnet d'entraînement aide à voir la progression réelle.</p>`,
+
+  "La force part du centre": `<p>Le « core » n'est pas que les abdos visibles, mais tout un corset : transverse profond, obliques, lombaires, plancher pelvien, diaphragme. Son rôle premier n'est pas de bouger, mais de <strong>stabiliser</strong> le tronc pendant que bras et jambes agissent.</p>
+    <p>Conséquence : les meilleurs exercices sont souvent « anti-mouvement » (la planche = résister à l'effondrement ; les exercices anti-rotation). Un core solide transfère mieux la force du bas vers le haut — un boxeur frappe avec les jambes et le tronc, pas juste le bras — et protège la colonne au quotidien.</p>`,
+
+  "Le sommeil, meilleur « supplément »": `<p>En sommeil profond, le corps libère l'hormone de croissance qui répare les tissus ; en sommeil paradoxal (REM), le cerveau consolide les apprentissages moteurs du jour. Mal dormir, c'est s'entraîner sans encaisser les bénéfices.</p>
+    <p>Les chiffres parlent : sous ~7-8 h, on observe plus de blessures, un temps de réaction dégradé et une perception de l'effort accrue (tout paraît plus dur). Le manque de sommeil augmente aussi le cortisol et dérègle les hormones de l'appétit. Avant tout complément « magique », la première optimisation, gratuite, reste le sommeil.</p>`,
+
+  "L'index glycémique": `<p>L'IG classe les glucides de 0 à 100 selon leur vitesse d'absorption. Mais un indicateur plus utile est la <strong>charge glycémique</strong>, qui tient compte de la quantité réellement mangée : la pastèque a un IG élevé mais si peu de sucre par portion que son impact reste faible.</p>
+    <p>Astuces : la cuisson, la maturité et la transformation augmentent l'IG (purée > pomme de terre entière ; banane mûre > verte). À l'inverse, associer un glucide à des fibres, protéines ou gras ralentit l'absorption et aplatit le pic. L'objectif n'est pas de bannir le sucre, mais d'éviter les montagnes russes glycémiques qui provoquent fringales et coups de barre.</p>`,
+
+  "Les protéines rassasient": `<p>Les protéines ont l'effet de satiété le plus fort des trois macronutriments, et l'effet thermique le plus élevé : le corps dépense ~20-30 % de leurs calories rien que pour les digérer (contre ~5-10 % pour les glucides). Elles préservent aussi le muscle, qui soutient le métabolisme.</p>
+    <p>Repère souvent cité : viser ~1,6 g de protéines par kg de poids si l'on est actif, <strong>réparti</strong> sur la journée (le corps ne les stocke pas, un apport régulier vaut mieux qu'un gros repas unique). Sources variées : œufs, poisson, volaille, laitages, mais aussi légumineuses, tofu et céréales complètes côté végétal.</p>`,
+
+  "Soif ou faim ?": `<p>Les centres de la faim et de la soif sont voisins dans l'hypothalamus, d'où la confusion. Le « petit creux » de l'après-midi est souvent un début de déshydratation.</p>
+    <p>Plus fiable que la soif (qui arrive tard) : la couleur des urines — jaune pâle = bien hydraté, foncé = à boire. Les besoins varient (~1,5 à 2,5 L/jour selon l'activité et la chaleur), et une part vient des aliments riches en eau. Le test : boire un grand verre d'eau et attendre 10 minutes avant de grignoter — si la faim disparaît, c'était de la soif.</p>`,
+
+  "Les fibres nourrissent ton microbiote": `<p>Deux familles de fibres. Les <strong>solubles</strong> (avoine, légumineuses, pommes) forment un gel qui ralentit la digestion et nourrit les bactéries ; les <strong>insolubles</strong> (peaux, son, légumes) font office de « balai » pour le transit. Les deux sont utiles.</p>
+    <p>En fermentant les fibres, les bonnes bactéries produisent des acides gras à chaîne courte (comme le butyrate) qui nourrissent la paroi de l'intestin et réduisent l'inflammation. Ce microbiote dialogue avec le cerveau (l'axe intestin-cerveau) et influence immunité et humeur. La plupart des gens en mangent moitié moins que recommandé : varier les végétaux crée un microbiote plus riche.</p>`,
+
+  "Le déficit calorique": `<p>Le principe : le bilan d'énergie, entrées (ce qu'on mange) vs sorties (métabolisme de repos + activité + digestion). Un déficit modéré (~300-500 kcal/j) fait perdre du gras sans trop toucher au muscle ni ruiner le moral.</p>
+    <p>Nuances : toutes les calories comptent pareil pour le poids, mais pas pour la satiété ni la santé — 500 kcal de sucreries et 500 kcal de légumes + protéines n'ont pas le même effet sur la faim. Et le corps s'adapte : en déficit prolongé, le métabolisme baisse un peu. D'où l'intérêt de préserver le muscle (protéines + musculation) et d'éviter les déficits extrêmes, qui finissent presque toujours en effet yo-yo.</p>`,
+
+  "Les points d'étranglement maritimes": `<p>Quelques chiffres : ~20 % du pétrole mondial transite par le détroit d'Ormuz, une part énorme du commerce par le canal de Suez. Le blocage du Suez par le porte-conteneurs <em>Ever Given</em> en 2021, six jours durant, a coûté des milliards et désorganisé la logistique mondiale.</p>
+    <p>D'où des enjeux militaires majeurs : flottes, bases, tensions récurrentes. La leçon plus large : la mondialisation a rendu le commerce ultra-efficace mais <strong>fragile</strong>, dépendant de quelques nœuds. Diversifier les routes (nouveaux canaux, route arctique, corridors terrestres) est devenu stratégique pour les grandes puissances.</p>`,
+
+  "La malédiction des ressources": `<p>Un mécanisme s'appelle le « syndrome hollandais » : quand un pays exporte massivement une ressource, sa monnaie s'apprécie, ce qui rend son industrie et son agriculture non compétitives. L'économie se réduit à la rente.</p>
+    <p>S'ajoutent des effets politiques : une rente facile à capter attise la corruption, et permet à un régime de se financer sans taxer la population — donc sans lui rendre de comptes. Mais ce n'est pas une fatalité : la Norvège, avec son fonds souverain et des institutions solides, a transformé son pétrole en prospérité durable. <strong>La différence tient aux institutions, pas à la ressource.</strong></p>`,
+
+  "Le soft power": `<p>Le concept a été formalisé par Joseph Nye : le pouvoir « dur » contraint par la force ou l'argent ; le pouvoir « doux » attire par la culture, les valeurs, l'image. Les deux se combinent en « smart power ».</p>
+    <p>Exemples : Hollywood et la musique ont diffusé un mode de vie américain ; les mangas et la cuisine ont porté l'image du Japon ; la Corée du Sud a bâti une stratégie explicite autour de la K-pop et des séries (le « hallyu »). Plus lent et moins contrôlable que les armes, le soft power façonne les préférences des populations — et donc, à terme, les alliances.</p>`,
+
+  "Les terres rares": `<p>Malgré leur nom, ces 17 métaux ne sont pas si rares dans la croûte terrestre. Ce qui est rare, ce sont les gisements assez concentrés pour être exploitables — et surtout le <strong>raffinage</strong>, très polluant et techniquement complexe.</p>
+    <p>La Chine domine largement le raffinage mondial, ce qui lui donne un levier : elle a déjà utilisé des restrictions d'exportation comme moyen de pression. D'où une course occidentale pour rouvrir des mines, recycler et trouver des substituts. Exemple parfait : la transition énergétique (batteries, éoliennes) crée de nouvelles dépendances géopolitiques.</p>`,
+
+  "Le dilemme de sécurité": `<p>Central en relations internationales, il vient du fait qu'un pays ne peut jamais être sûr des intentions réelles des autres. Des armes « défensives » pour l'un paraissent « offensives » pour le voisin, qui réagit — enclenchant une spirale.</p>
+    <p>C'est une tragédie de la méfiance : chacun agit rationnellement pour sa sécurité, mais le résultat collectif est une insécurité accrue et des ressources gaspillées. Remèdes connus : transparence (inspections, traités), communication (lignes directes), confiance construite par étapes. C'est le cousin géopolitique du « dilemme du prisonnier » : coopérer serait meilleur pour tous, mais la peur de se faire avoir pousse à la défiance.</p>`,
+
+  "La technique Pomodoro": `<p>Inventée par Francesco Cirillo dans les années 1980 (du nom de son minuteur en forme de tomate), elle exploite deux ressorts : la peur de commencer est vaincue par un engagement minuscule (« juste 25 minutes »), et les pauses régulières évitent l'épuisement de l'attention.</p>
+    <p>Les règles qui font la différence : pendant le « pomodoro », une seule tâche, zéro distraction (téléphone loin) ; une pensée parasite ? on la note et on y revient après. Les pauses doivent être vraies (se lever, bouger), pas un scroll qui fatigue autant. Bonus : compter ses pomodoros donne une mesure réaliste du temps que prennent les choses.</p>`,
+
+  "La répétition espacée": `<p>Le fondement est la « courbe de l'oubli » d'Ebbinghaus : on oublie très vite ce qu'on vient d'apprendre, mais chaque révision bien placée aplatit la courbe. Réviser <strong>juste avant d'oublier</strong> est le moment optimal.</p>
+    <p>En pratique, des logiciels de « flashcards » (comme Anki) calculent les intervalles : une carte réussie revient plus tard, une carte ratée revient plus tôt. Combinée à « l'effet de test » (se forcer à retrouver la réponse plutôt que relire), c'est la méthode d'apprentissage la plus efficace prouvée par la recherche — étudiants en médecine et apprenants de langues du monde entier l'utilisent.</p>`,
+
+  "La méthode Feynman": `<p>Richard Feynman, prix Nobel de physique, était célèbre pour expliquer des idées complexes avec une simplicité désarmante. Sa méthode : 1) choisir un concept ; 2) l'expliquer comme à un enfant, à voix haute ou par écrit ; 3) repérer où l'on bloque ou emploie du jargon — ce sont tes trous ; 4) retourner à la source, combler, recommencer.</p>
+    <p>Pourquoi ça marche : reformuler avec ses propres mots force une compréhension <strong>active</strong>. « Ça me dit quelque chose » n'est pas « je sais l'expliquer ». Le jargon est un piège : il donne l'illusion de comprendre en masquant le flou. Si tu ne peux pas l'expliquer simplement, tu ne l'as pas encore compris.</p>`,
+
+  "Expliquer à voix haute (rubber duck)": `<p>Le nom vient de programmeurs qui gardaient un canard en plastique sur leur bureau et lui expliquaient leur code ligne par ligne quand ils bloquaient. Souvent, l'erreur leur sautait aux yeux avant la fin de l'explication.</p>
+    <p>Le mécanisme est général : passer d'une pensée floue et rapide à une explication linéaire et explicite oblige le cerveau à combler les non-dits — et c'est là que se révèle l'incohérence ou l'oubli. Ça marche pour déboguer un code, mais aussi pour clarifier une décision, un e-mail ou un raisonnement. L'écrire produit le même effet. Verbaliser, c'est penser deux fois.</p>`,
+
+  "Le time-blocking": `<p>La méthode transforme la to-do list en <strong>rendez-vous avec soi-même</strong> dans l'agenda. Cal Newport, qui la popularise, insiste : une tâche non planifiée dans le temps entre en compétition permanente avec toutes les autres et tend à être repoussée.</p>
+    <p>Trois raffinements. 1) Regrouper les tâches similaires (« batching ») : traiter tous les mails dans un bloc plutôt que 30 fois par jour, car chaque changement de contexte coûte de l'attention. 2) Protéger un bloc de « deep work » sans interruption pour les tâches à forte valeur. 3) Prévoir des blocs tampons : la journée ne se passe jamais comme prévu, un agenda rempli à 100 % explose au premier imprévu.</p>`,
+};
+
+/* ============================================================
+   1 ter) BIBLIOTHÈQUE ENFANTS (6-8 ans) — mode « Enfants »
+   ============================================================ */
+const ENFANTS = [
+  // ---------- ANIMAUX ----------
+  { cat:"Animaux", titre:"Le poulpe a trois cœurs",
+    corps:`<p>Le poulpe a <strong>trois cœurs</strong>, et son sang est bleu ! Deux cœurs envoient le sang vers les branchies pour respirer, et le troisième l'envoie dans tout le corps.</p>
+    <p>Quand il nage, son grand cœur s'arrête un peu — c'est pour ça qu'il préfère souvent marcher au fond de la mer.</p>`,
+    why:"Un poulpe peut changer de couleur en une seconde pour se cacher. C'est le champion du déguisement !" },
+
+  { cat:"Animaux", titre:"Les manchots offrent des cailloux",
+    corps:`<p>Certains manchots choisissent leur amoureux en offrant… un joli <strong>caillou</strong> ! Ils cherchent le plus beau galet et l'offrent en cadeau.</p>
+    <p>Si l'autre l'accepte, ils construisent leur nid ensemble avec.</p>`,
+    why:"Le papa manchot garde l'œuf au chaud sur ses pieds pendant que la maman va manger. Quelle équipe !" },
+
+  { cat:"Animaux", titre:"La fourmi super forte",
+    corps:`<p>Une petite fourmi peut porter <strong>50 fois son poids</strong> ! C'est comme si toi, tu soulevais une voiture avec tes bras.</p>
+    <p>Et les fourmis ne dorment presque pas : elles font juste plein de mini-siestes toute la journée.</p>`,
+    why:"Dans une fourmilière, les fourmis sont toutes sœurs — et il peut y en avoir des millions !" },
+
+  // ---------- ESPACE ----------
+  { cat:"Espace", titre:"On ne peut pas crier dans l'espace",
+    corps:`<p>Dans l'espace, il n'y a pas d'air. Or le son a besoin d'air pour voyager jusqu'à nos oreilles.</p>
+    <p>Alors dans l'espace, même une énorme explosion serait… <strong>totalement silencieuse</strong> !</p>`,
+    why:"C'est pour ça que les astronautes se parlent avec des radios, même quand ils sont juste à côté." },
+
+  { cat:"Espace", titre:"La Lune s'en va tout doucement",
+    corps:`<p>Chaque année, la Lune s'éloigne un tout petit peu de la Terre : environ <strong>4 centimètres</strong> — la vitesse à laquelle poussent tes ongles !</p>
+    <p>C'est très lent, mais ça n'arrête jamais.</p>`,
+    why:"Il y a très très longtemps, la Lune était beaucoup plus proche et paraissait géante dans le ciel." },
+
+  { cat:"Espace", titre:"Un jour très très long sur Vénus",
+    corps:`<p>Sur la planète Vénus, <strong>une seule journée dure plus longtemps qu'une année entière</strong> ! Vénus tourne sur elle-même super lentement.</p>
+    <p>Là-bas, tu fêterais ton anniversaire avant même d'avoir fini une seule journée.</p>`,
+    why:"Sur Vénus, le Soleil se lève à l'ouest, parce qu'elle tourne à l'envers des autres planètes !" },
+
+  // ---------- LE CORPS ----------
+  { cat:"Le corps", titre:"Tes os plus solides que l'acier",
+    corps:`<p>Pour leur poids, tes <strong>os</strong> sont plus résistants que l'acier des voitures ! Ton corps est super bien fabriqué.</p>
+    <p>Tu as même un os minuscule dans l'oreille, plus petit qu'un grain de riz.</p>`,
+    why:"Bébé, tu avais environ 300 os. En grandissant, certains se collent ensemble : il t'en reste 206 !" },
+
+  { cat:"Le corps", titre:"Ton cerveau fait de l'électricité",
+    corps:`<p>Ton cerveau fonctionne avec plein de tout petits signaux <strong>électriques</strong>. Il y en a assez pour allumer une petite ampoule !</p>
+    <p>C'est comme un ordinateur super puissant, caché dans ta tête.</p>`,
+    why:"Ton cerveau ne se repose jamais : même quand tu dors, il range tes souvenirs de la journée." },
+
+  { cat:"Le corps", titre:"Pourquoi on a le hoquet",
+    corps:`<p>Sous tes poumons, il y a un muscle qui t'aide à respirer : le diaphragme. Parfois il se contracte d'un coup, par surprise, et ça fait « <strong>HIC !</strong> ».</p>`,
+    why:"Personne n'a de truc magique prouvé contre le hoquet — mais boire de l'eau doucement aide souvent." },
+
+  // ---------- NATURE ----------
+  { cat:"Nature", titre:"Le miel ne s'abîme jamais",
+    corps:`<p>Le <strong>miel</strong> peut se garder des milliers d'années sans pourrir ! On a retrouvé du miel dans des tombes très anciennes en Égypte, et il était encore bon.</p>`,
+    why:"Une abeille doit visiter des milliers de fleurs pour fabriquer une seule petite cuillère de miel." },
+
+  { cat:"Nature", titre:"Les arbres se parlent sous la terre",
+    corps:`<p>Sous la terre, les racines des arbres sont reliées par des champignons, comme un <strong>réseau secret</strong> !</p>
+    <p>Un grand arbre peut même envoyer de la nourriture à un petit arbre malade à côté.</p>`,
+    why:"Les scientifiques appellent ça le « Wood Wide Web » : une sorte d'internet des forêts !" },
+
+  // ---------- SCIENCES RIGOLOTES ----------
+  { cat:"Sciences rigolotes", titre:"Pourquoi le ciel est bleu",
+    corps:`<p>La lumière du soleil, c'est toutes les couleurs mélangées. En traversant l'air, c'est le <strong>bleu</strong> qui rebondit partout dans le ciel.</p>
+    <p>Le soir, le bleu s'en va au loin, et il ne reste que le rouge et l'orange.</p>`,
+    why:"C'est pour ça que les couchers de soleil sont tout roses et oranges !" },
+
+  { cat:"Sciences rigolotes", titre:"L'arc-en-ciel est un rond",
+    corps:`<p>Un <strong>arc-en-ciel</strong> est en vrai un cercle complet ! On n'en voit que la moitié, parce que le sol cache le reste.</p>
+    <p>Depuis un avion, on peut parfois le voir en rond entier.</p>`,
+    why:"Pour en voir un : il faut le soleil dans ton dos et de la pluie devant toi." },
+
+  // ---------- ÉMOTIONS ----------
+  { cat:"Émotions", titre:"La colère est comme une vague",
+    corps:`<p>Quand tu es très en colère, ton corps s'emballe. Mais la colère monte comme une <strong>vague</strong>… puis elle redescend toujours.</p>
+    <p>Si tu respires doucement en comptant jusqu'à 5, la vague passe plus vite.</p>`,
+    why:"Même les grands ont des colères. Dire « je suis fâché » aide déjà à se sentir mieux." },
+
+  { cat:"Émotions", titre:"Le pouvoir de dire pardon",
+    corps:`<p>Dire « <strong>pardon</strong> » quand on a fait de la peine, c'est très courageux. Ça ne veut pas dire qu'on est nul.</p>
+    <p>Ça veut dire qu'on est assez fort pour réparer et faire mieux.</p>`,
+    why:"Un « merci » et un « pardon » sincères rendent souvent les gens encore plus proches qu'avant." },
+];
+const DETAILS_ENFANT = {
+  "Le poulpe a trois cœurs": `<p>Le poulpe est un vrai petit génie ! Il sait ouvrir des bocaux, sortir de labyrinthes, et même reconnaître les personnes qui s'occupent de lui.</p>
+    <p>Ses huit bras sont couverts de ventouses qui goûtent ce qu'elles touchent. Un peu comme si tu avais la langue au bout des doigts !</p>`,
+
+  "Les manchots offrent des cailloux": `<p>Pour ne pas avoir froid, des centaines de manchots se serrent en un énorme câlin géant. Chacun va à son tour au milieu, bien au chaud, puis laisse la place à un autre.</p>
+    <p>Et ils se reconnaissent rien qu'au son de leur voix, même au milieu de milliers d'amis !</p>`,
+
+  "La fourmi super forte": `<p>Les fourmis se parlent avec des odeurs ! Elles laissent une trace parfumée sur le sol pour dire aux autres : « par ici, il y a à manger ! »</p>
+    <p>Certaines fourmis élèvent même de tout petits pucerons, comme nous élevons des vaches, pour récolter leur jus sucré.</p>`,
+
+  "On ne peut pas crier dans l'espace": `<p>Dans l'espace, il fait super froid et il n'y a pas d'air à respirer. C'est pour ça que les astronautes portent une combinaison spéciale, comme une petite maison autour d'eux.</p>
+    <p>Leur casque leur donne de l'air et les protège du Soleil, qui brille très fort là-haut.</p>`,
+
+  "La Lune s'en va tout doucement": `<p>C'est la Lune qui fait bouger la mer ! Elle attire l'eau des océans, et ça fait monter puis descendre la mer chaque jour : les marées.</p>
+    <p>Douze personnes ont déjà marché sur la Lune. Leurs traces de pas y sont encore, parce qu'il n'y a pas de vent pour les effacer !</p>`,
+
+  "Un jour très très long sur Vénus": `<p>Vénus est la planète la plus chaude de toutes, encore plus que Mercure qui est pourtant plus proche du Soleil !</p>
+    <p>C'est à cause de ses gros nuages épais qui gardent toute la chaleur, comme une énorme couverture posée sur la planète.</p>`,
+
+  "Tes os plus solides que l'acier": `<p>Le plus grand os de ton corps est dans ta cuisse, et le plus petit est caché dans ton oreille !</p>
+    <p>Quand un os se casse, ton corps le répare tout seul, comme une colle magique. En quelques semaines, il redevient solide.</p>`,
+
+  "Ton cerveau fait de l'électricité": `<p>Ton cerveau adore apprendre : chaque fois que tu découvres quelque chose, il fabrique de nouveaux petits chemins à l'intérieur.</p>
+    <p>Plus tu t'entraînes (au vélo, à la lecture…), plus ces chemins deviennent solides. C'est pour ça qu'on devient meilleur en s'entraînant !</p>`,
+
+  "Pourquoi on a le hoquet": `<p>Le hoquet arrive souvent quand on mange trop vite ou qu'on rigole beaucoup. Ce n'est pas grave du tout, c'est juste ton corps qui fait une petite pagaille.</p>
+    <p>Il repart tout seul, en général au bout de quelques minutes.</p>`,
+
+  "Le miel ne s'abîme jamais": `<p>Les abeilles dansent pour se parler ! Quand une abeille trouve de belles fleurs, elle fait une petite danse pour montrer aux autres où aller.</p>
+    <p>Dans une ruche, il peut y avoir 50 000 abeilles, et une seule reine qui s'occupe de pondre tous les bébés.</p>`,
+
+  "Les arbres se parlent sous la terre": `<p>Le plus grand arbre du monde est un séquoia : il est plus haut qu'un immeuble de 25 étages !</p>
+    <p>Certains arbres vivent des milliers d'années : ils étaient déjà là bien avant tes arrière-arrière-grands-parents.</p>`,
+
+  "Pourquoi le ciel est bleu": `<p>La lumière voyage tellement vite qu'elle pourrait faire 7 fois le tour de la Terre en une seule seconde !</p>
+    <p>La nuit, le ciel devient noir parce que le Soleil est parti éclairer l'autre côté de la Terre. Et les étoiles sont d'autres soleils, très très loin.</p>`,
+
+  "L'arc-en-ciel est un rond": `<p>Un arc-en-ciel a toujours ses couleurs dans le même ordre : rouge, orange, jaune, vert, bleu, puis violet.</p>
+    <p>Tu peux même fabriquer ton arc-en-ciel avec un jet d'eau dans le jardin, quand le soleil est derrière toi !</p>`,
+
+  "La colère est comme une vague": `<p>Quand tu es en colère, ton cœur bat plus vite et tu as chaud : c'est normal, c'est ton corps qui se prépare. Respirer doucement lui dit « tout va bien, on se calme ».</p>
+    <p>Une astuce : souffle tout doucement comme pour éteindre 5 bougies. La vague redescend !</p>`,
+
+  "Le pouvoir de dire pardon": `<p>Se tromper, ça arrive à tout le monde, même aux grandes personnes ! Ce qui compte, c'est ce qu'on fait après.</p>
+    <p>Dire pardon et réparer, ça soigne aussi les amitiés. Et souvent, on se sent tout léger après.</p>`,
+};
+
+/* ============================================================
+   2) MÉMOIRE (localStorage) : goûts, vus, favoris — par mode
+   ============================================================ */
+const load = (k, def) => { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } };
+const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+
+// Profils : 'parent' (adulte), 'charlie' et 'emilie' (les filles). Chacun a SA propre mémoire.
+const MODES = ['parent', 'charlie', 'emilie'];
+const KIDS = ['charlie', 'emilie']; // partagent la même bibliothèque enfants
+const isKid = () => KIDS.includes(MODE);
+
+let MODE = load('pdj_mode', 'parent');
+if (!MODES.includes(MODE)) MODE = 'parent';
+
+let KEY;
+function refreshKeys() {
+  KEY = {
+    weights:  'pdj_' + MODE + '_weights',
+    seen:     'pdj_' + MODE + '_seen',
+    favs:     'pdj_' + MODE + '_favs',
+    dislikes: 'pdj_' + MODE + '_dislikes',
+  };
+}
+refreshKeys();
+
+// Bibliothèque active selon le profil (les 2 filles partagent la même)
+function lib() { return isKid() ? ENFANTS : PENSEES; }
+function det() { return isKid() ? DETAILS_ENFANT : DETAILS; }
+
+function addSeen(titres) {
+  const cap = Math.max(3, Math.floor(lib().length * 0.5)); // on évite de revoir la moitié du pool
+  let seen = load(KEY.seen, []);
+  seen = [...titres, ...seen.filter(t => !titres.includes(t))].slice(0, cap);
+  save(KEY.seen, seen);
+}
+
+/* ============================================================
+   3) CHOISIR LE CONTENU SUIVANT, pondéré par les goûts
+   ============================================================ */
+function pickNext() {
+  const weights = load(KEY.weights, {});
+  const seen = load(KEY.seen, []);
+  let cands = lib().filter(p => !seen.includes(p.titre));
+  if (!cands.length) cands = lib().slice(); // tout a été vu récemment : on rouvre tout
+  const total = cands.reduce((s,c) => s + Math.max(0.15, weights[c.cat] ?? 1), 0);
+  let r = Math.random() * total;
+  for (const c of cands) {
+    r -= Math.max(0.15, weights[c.cat] ?? 1);
+    if (r <= 0) return c;
+  }
+  return cands[cands.length - 1];
+}
+
+/* ============================================================
+   4) AFFICHAGE (une carte à la fois)
+   ============================================================ */
+let currentView = 'feed';
+let current = null; // le contenu affiché en ce moment
+
+const extraitDe = (corps) => corps.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 115) + '…';
+
+function renderPrefsHint() {
+  const w = load(KEY.weights, {});
+  const liked = Object.entries(w).filter(([,v]) => v > 1).sort((a,b) => b[1]-a[1]).map(([c]) => c);
+  const el = document.getElementById('prefs-hint');
+  el.innerHTML = liked.length
+    ? `🎯 D'après tes 👍, on te montre plus de : <b>${liked.slice(0,3).join(', ')}</b>`
+    : `🎯 Swipe ou note les contenus : l'app apprendra tes goûts.`;
+}
+
+function cardInner(p) {
+  const extra = det()[p.titre]
+    ? `<button class="more-btn" data-more>🔍 Plus de détails</button><div class="plus">${det()[p.titre]}</div>` : '';
+  const whyLabel = isKid() ? '🤩 Le savais-tu&nbsp;?' : 'Pourquoi ça compte';
+  return `
+    <span class="stamp like">${isKid() ? "J'adore" : "J'aime"}</span>
+    <span class="stamp nope">${isKid() ? 'Bof' : 'Passe'}</span>
+    <span class="chip">${p.cat}</span>
+    <h2>${p.titre}</h2>
+    <div class="body">${p.corps}</div>
+    <div class="why"><span class="lbl">${whyLabel}</span><p>${p.why}</p></div>
+    ${extra}`;
+}
+
+function showCurrent() {
+  renderPrefsHint();
+  const card = document.getElementById('swipe-card');
+  card.style.transition = 'none';
+  card.style.transform = '';
+  card.style.opacity = '1';
+  card.classList.remove('hint-like', 'hint-nope');
+  card.innerHTML = cardInner(current);
+  const more = card.querySelector('[data-more]');
+  if (more) more.onclick = (e) => {
+    e.stopPropagation();
+    const box = card.querySelector('.plus');
+    const open = box.classList.toggle('open');
+    more.textContent = open ? '🔼 Masquer les détails' : '🔍 Plus de détails';
+  };
+}
+
+function nextCard() {
+  current = pickNext();
+  showCurrent();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ============================================================
+   5) NOTER + ZAPPER
+   ============================================================ */
+function applyRating(kind, titre) {
+  const p = lib().find(x => x.titre === titre); if (!p) return;
+  const cat = p.cat;
+  const weights = load(KEY.weights, {});
+  let favs = load(KEY.favs, []), dislikes = load(KEY.dislikes, []);
+  weights[cat] = weights[cat] ?? 1;
+  if (kind === 'like') {
+    weights[cat] = Math.min(4, weights[cat] + 0.6);
+    if (!favs.includes(titre)) favs.push(titre);
+    dislikes = dislikes.filter(t => t !== titre);
+  } else {
+    weights[cat] = Math.max(0.2, weights[cat] - 0.6);
+    if (!dislikes.includes(titre)) dislikes.push(titre);
+    favs = favs.filter(t => t !== titre);
+  }
+  save(KEY.weights, weights); save(KEY.favs, favs); save(KEY.dislikes, dislikes);
+}
+
+// kind : 'like' | 'dislike' | 'skip'
+function decide(kind) {
+  if (!current) return;
+  if (kind === 'like' || kind === 'dislike') applyRating(kind, current.titre);
+  addSeen([current.titre]); // on évite de le revoir tout de suite
+  nextCard();
+}
+
+// La carte s'envole, puis on charge la suivante
+function flyOut(dir, kind) {
+  const card = document.getElementById('swipe-card');
+  card.style.transition = 'transform .28s ease-out, opacity .28s ease-out';
+  card.style.transform = `translateX(${dir * 600}px) rotate(${dir * 22}deg)`;
+  card.style.opacity = '0';
+  setTimeout(() => decide(kind), 260);
+}
+
+/* ============================================================
+   6) SWIPE (doigt sur tablette / souris)
+   ============================================================ */
+function setupSwipe() {
+  const card = document.getElementById('swipe-card');
+  let startX = 0, startY = 0, dx = 0, dragging = false, axis = null;
+  const THRESHOLD = 110;
+
+  card.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.more-btn') || e.target.closest('.plus')) return; // ne pas gêner la lecture
+    dragging = true; axis = null; startX = e.clientX; startY = e.clientY; dx = 0;
+    card.style.transition = 'none';
+    try { card.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+  card.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    if (axis === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) axis = Math.abs(dx) >= Math.abs(dy) ? 'h' : 'v';
+    if (axis !== 'h') return; // mouvement vertical : on laisse la page défiler
+    card.style.transform = `translateX(${dx}px) rotate(${dx / 25}deg)`;
+    card.classList.toggle('hint-like', dx > 40);
+    card.classList.toggle('hint-nope', dx < -40);
+  });
+  const end = () => {
+    if (!dragging) return;
+    dragging = false;
+    if (axis === 'h' && dx > THRESHOLD) flyOut(1, 'like');
+    else if (axis === 'h' && dx < -THRESHOLD) flyOut(-1, 'dislike');
+    else {
+      card.style.transition = 'transform .2s';
+      card.style.transform = '';
+      card.classList.remove('hint-like', 'hint-nope');
+    }
+  };
+  card.addEventListener('pointerup', end);
+  card.addEventListener('pointercancel', end);
+}
+
+/* ============================================================
+   7) FAVORIS (liste dépliable)
+   ============================================================ */
+function renderFavs() {
+  const favs = load(KEY.favs, []);
+  const list = document.getElementById('favs-list');
+  if (!favs.length) { list.innerHTML = `<div class="empty">Aucun favori pour l'instant.<br>Swipe à droite (ou 👍) pour en ajouter ici.</div>`; return; }
+  const items = favs.map(t => lib().find(p => p.titre === t)).filter(Boolean);
+  const whyLabel = isKid() ? '🤩 Le savais-tu&nbsp;?' : 'Pourquoi ça compte';
+  list.innerHTML = items.map(p => `
+    <div class="card-item" data-titre="${encodeURIComponent(p.titre)}">
+      <div class="card-head">
+        <div><span class="chip">${p.cat}</span>
+          <h3>${p.titre}</h3>
+          <p class="teaser">${extraitDe(p.corps)}</p></div>
+        <span class="lire">Lire ▾</span>
+      </div>
+      <div class="card-body">
+        <div class="body">${p.corps}</div>
+        <div class="why"><span class="lbl">${whyLabel}</span><p>${p.why}</p></div>
+        ${det()[p.titre] ? `<button class="more-btn" data-more>🔍 Plus de détails</button><div class="plus">${det()[p.titre]}</div>` : ''}
+        <button class="rate dislike" data-unfav style="margin-top:16px">🗑️ Retirer des favoris</button>
+      </div>
+    </div>`).join('');
+  list.querySelectorAll('.card-item').forEach(cardEl => {
+    const titre = decodeURIComponent(cardEl.dataset.titre);
+    cardEl.querySelector('.card-head').onclick = () => {
+      const open = cardEl.classList.toggle('open');
+      cardEl.querySelector('.lire').textContent = open ? 'Réduire ▴' : 'Lire ▾';
+    };
+    const more = cardEl.querySelector('[data-more]');
+    if (more) more.onclick = (e) => { e.stopPropagation(); const b = cardEl.querySelector('.plus'); const o = b.classList.toggle('open'); more.textContent = o ? '🔼 Masquer les détails' : '🔍 Plus de détails'; };
+    const unfav = cardEl.querySelector('[data-unfav]');
+    if (unfav) unfav.onclick = (e) => { e.stopPropagation(); save(KEY.favs, load(KEY.favs, []).filter(t => t !== titre)); renderFavs(); };
+  });
+}
+
+/* ============================================================
+   8) NAVIGATION + DÉMARRAGE
+   ============================================================ */
+function switchView(view) {
+  currentView = view;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
+  document.getElementById('view-feed').classList.toggle('hidden', view !== 'feed');
+  document.getElementById('view-favs').classList.toggle('hidden', view !== 'favs');
+}
+// Met à jour l'habillage selon le mode (titre, sous-titre, thème, bouton actif)
+const TITRES = {
+  parent:  ['💭 Mes pensées', 'Fais défiler les idées, une par une. À toi de zapper ou de garder.'],
+  charlie: ['🌸 Les découvertes de Charlie', 'Plein de trucs incroyables à découvrir. Swipe pour en voir un autre !'],
+  emilie:  ["🦄 Les découvertes d'Émilie", 'Plein de trucs incroyables à découvrir. Swipe pour en voir un autre !'],
+};
+function applyModeUI() {
+  document.body.classList.toggle('kids', isKid());
+  document.querySelectorAll('.mode').forEach(b => b.classList.toggle('active', b.dataset.mode === MODE));
+  const [titre, sous] = TITRES[MODE] || TITRES.parent;
+  document.querySelector('header.top h1').textContent = titre;
+  document.querySelector('header.top p').textContent = sous;
+}
+
+function switchMode(mode) {
+  if (mode === MODE) return;
+  MODE = mode;
+  save('pdj_mode', MODE);
+  refreshKeys();      // bascule sur la mémoire (goûts, favoris) de ce mode
+  applyModeUI();
+  switchView('feed');
+  nextCard();         // charge un contenu de la nouvelle bibliothèque
+}
+
+document.querySelectorAll('.mode').forEach(b => { b.onclick = () => switchMode(b.dataset.mode); });
+document.querySelectorAll('.tab').forEach(t => {
+  t.onclick = () => { switchView(t.dataset.view); if (t.dataset.view === 'favs') renderFavs(); };
+});
+document.getElementById('act-like').onclick = () => flyOut(1, 'like');
+document.getElementById('act-dislike').onclick = () => flyOut(-1, 'dislike');
+document.getElementById('act-skip').onclick = () => decide('skip');
+
+setupSwipe();
+applyModeUI();
+nextCard();
+</script>
+</body>
+</html>
